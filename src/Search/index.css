@@ -9,4 +9,23 @@
     color:#ced4da;
   }
 
-  
+  .cg-link {
+    color: black
+  }
+
+  .flag-image {
+    width: 70px;
+    margin-right: 5px;
+  }
+
+  .cg-red {
+    color : rgb(236, 83, 124);
+  }
+
+  .cg-grey {
+    color : rgb(125, 125, 125);
+  }
+
+  .like-btn {
+    width : 100px;
+  }
