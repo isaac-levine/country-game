@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 
 
 
-function Search() {
-    const [searchTerm, setSearchTerm] = useState('');
+function Search({initialSearchTerm}) {
+    const [searchTerm, setSearchTerm] = useState(initialSearchTerm || '');
     const [displayCount, setDisplayCount] = useState(20);
       
     const handleSearch = (term) => {
@@ -38,10 +38,19 @@ function Search() {
         fetchAndDisplayResults();
     }, []);
 
-    const sortedResults = results
+    const sortResults = () => {
+        const lowercaseSearchTerm = searchTerm.toLowerCase();
+        return results
         .sort((a, b) => a.name.common.localeCompare(b.name.common))
-        .filter((country) =>
-            searchTerm === '' || country.name.common.toLowerCase().includes(searchTerm.toLowerCase()));
+        .filter((country) => (searchTerm === '' || !searchTerm ||
+        country.name.common.toLowerCase().includes(lowercaseSearchTerm) ||
+        country.region.toLowerCase().includes(lowercaseSearchTerm) ||
+        (country.subregion && country.subregion.toLowerCase().includes(lowercaseSearchTerm)) ||
+          (country.capital &&
+            country.capital[0].toLowerCase().includes(lowercaseSearchTerm))));
+      
+    }
+    const sortedResults = sortResults();
     const visibleResults = sortedResults.slice(0, displayCount);
     const nextResults = sortedResults.slice(displayCount, displayCount + 20);
     const handleLoadMore = () => {
@@ -64,7 +73,8 @@ function Search() {
                         <Link className="d-inline me-2 cg-link" to={`/Search/${country.cca2}`}><strong>{country.name.common} </strong></Link>
                         {country.flag} <br/>
                         <p>Capital: {country.capital}<br/>
-                        Region: {country.region} </p>
+                        Region: {country.region} <br/>
+                        Subregion: {country.subregion} </p>
                     </li>
                     ))}
                 </ul>
