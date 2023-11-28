@@ -1,24 +1,28 @@
-import logo from './logo.svg';
+import Search from './Search'
+import Details from './Details';
 import './App.css';
+import Profile from './profile/Profile';
+import Edit_Profile from './profile/Edit_Profile';
+import AnonymousHome from "./Home/anonymous-home";
+import LoggedInHome from "./Home/logged-in-home";
+import {HashRouter} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <HashRouter>
+    <div>
+    <Routes>
+    <Route path="/"         element={<Navigate to="/welcome"/>}/>
+          <Route path="/welcome"    element={<AnonymousHome/>}/>
+          <Route path='loggedin'   element={<LoggedInHome/>}/>
+          <Route path="/Search/*"    element={<Search/>}/>
+          <Route path="/Search/:id"    element={<Details/>}/>
+          <Route path="/Profile/*"    element={<Profile/>}/>
+          <Route path="/Profile/Edit_Profile/*"    element={<Edit_Profile/>}/>
+        </Routes>
+      </div>
+      </HashRouter>
   );
 }
 
