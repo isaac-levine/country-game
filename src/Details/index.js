@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Nav from '../Nav';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaBucket } from "react-icons/fa6";
@@ -50,7 +49,6 @@ const CountryDetails = () => {
 
   return (
     <div>
-      <Nav />
       <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className='col-md-3'>

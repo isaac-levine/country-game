@@ -1,19 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "./searchbar";
-import Nav from "../Nav";
 
 function AnonymousHome() {
   return (
     <div>
-      <Nav />
       <div className="d-flex justify-content-center ">
         
-        <Link to="/loggedin" className="btn btn-secondary" role="button">
+        <Link to="/signup" className="btn btn-secondary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           Sign Up
         </Link>
-        <Link to="/loggedin" className="btn btn-primary" role="button">
+        <Link to="/Login" className="btn btn-primary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           Sign In
         </Link>

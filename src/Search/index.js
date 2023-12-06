@@ -1,4 +1,3 @@
-import Nav from "../Nav";
 import SearchBar from "./SearchBar";
 import SearchFilters from "./SearchFilters";
 import "./index.css";
@@ -60,7 +59,6 @@ function Search({initialSearchTerm}) {
 
     return(
         <div>
-            <Nav/>
             <div className="container mt-5">
                 <div className="row d-flex justify-content-center ">
                     <div className="col-md-3">
