@@ -1,12 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../Search/SearchBar";
-import Nav from "../Nav";
 
 function AnonymousHome() {
   return (
     <div>
-        <Nav/>
       <div className="d-flex justify-content-center ">
         <SearchBar />
         <Link to="/loggedin" className="btn btn-secondary" role="button">

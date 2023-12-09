@@ -1,11 +1,15 @@
+import "./index.css";
+import { Link } from "react-router-dom";
+
+
 function Edit_Profile() {
     return (
         <div>
             <hr />
-            <div className="profile-main-div">
+            <div className="profile-main-edit-div">
+                <Link to={`/Profile`}><button type="button" className="btn btn-primary float-end" > Save </button> </Link>
                 <h1>This will be where users can put a profile picture</h1>
                 <h1>Hello USERNAME</h1>
-
                 <div className="bio-section">
                     <h2>A litle bit about me </h2>
                     <textarea className="form-control" rows="5" id="comment" value="whatever the current bio is"></textarea>
@@ -26,6 +30,7 @@ function Edit_Profile() {
                     <p>There should be a list of flags here/Search for flags were a user can select/Remove flags from</p>
                 </div>
             </div>
+            <Link to={`/Profile`}><button type="button" className="btn btn-danger float-end" > Cancel Edit </button> </Link>
         </div>
     );
 }

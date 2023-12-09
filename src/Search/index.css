@@ -16,6 +16,12 @@
   .flag-image {
     width: 70px;
     margin-right: 5px;
+    border: 1px solid #ced4da;
+  }
+
+  .search-result-flag {
+    position: relative;
+    top: 25px;
   }
 
   .cg-red {

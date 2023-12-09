@@ -14,6 +14,7 @@ const SearchBar = ({ onSearch }) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
+      //navigate(`/Search/${searchTerm}`);
     }
   };
 

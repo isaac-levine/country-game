@@ -2,14 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PersonCircle } from "react-bootstrap-icons";
 import SearchBar from "../Search/SearchBar";
-import Nav from "../Nav";
 
 function LoggedInHome() {
   const userName = "John Doe"; // Replace with user's actual name
   const userFlag = "🇺🇸"; // replace with user's actual flag
   return (
     <div>
-        <Nav/>
       <div className="d-flex justify-content-center ">
         <SearchBar />
         <Link to="/welcome" className="btn btn-primary" role="button">
