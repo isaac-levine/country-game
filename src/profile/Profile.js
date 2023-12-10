@@ -23,8 +23,15 @@ function Profile() {
 
     return (
         <div>
+            {!account && 
+            (<div>
+                <h1>Please Sign in to access profile</h1>
+                <button type="button" className="btn btn-primary" onClick={() => navigate("/login")}> Sign in </button>
+                </div>)
+                }
             {account && (
             <div>
+               <Link to={`/Friends`}><button type="button" className="btn btn-success float-end" > Find Friends </button> </Link> 
                 <Link to={`/Profile/Edit_Profile`}><button type="button" className="btn btn-primary float-end" > Edit Profile </button> </Link>
                 <button type="button" className="btn btn-danger float-end" onClick={signout} > Sign out </button>
                 <div className="profile-main">
@@ -40,7 +47,7 @@ function Profile() {
 
                     <div className="bio-section">
                         <h2>A litle bit about me </h2>
-                        <p>This will be where they put in bio information other than the statements below </p>
+                        <p>{account.bio} </p>
                     </div>
                     <div className="bio-section">
                         <h2>My countries of origin are...</h2>
@@ -54,7 +61,7 @@ function Profile() {
                 </div>
                 
             </div>
-            )};
+            )}
         </div>
     );
 }

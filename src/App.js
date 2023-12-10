@@ -7,6 +7,8 @@ import AnonymousHome from "./Home/anonymous-home";
 import LoggedInHome from "./Home/logged-in-home";
 import Signin from './Users/Signin';
 import Signup from './Users/Signup';
+import OtherUsers from './Users/OtherUsers';
+import Friends from './Users/Friends';
 
 import {HashRouter} from "react-router-dom";
 import {Routes, Route, Navigate} from "react-router";
@@ -27,6 +29,8 @@ function App() {
           <Route path="/Profile/Edit_Profile/*"    element={<Edit_Profile/>}/>
           <Route path="/login"    element={<Signin/>}/>
           <Route path="/signup"    element={<Signup/>}/>
+          <Route path='/users/:id'   element={<OtherUsers/>}/>
+          <Route path='/Friends'   element={<Friends/>}/>
         </Routes>
       </div>
       </HashRouter>
