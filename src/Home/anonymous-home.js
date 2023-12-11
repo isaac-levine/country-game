@@ -1,12 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "../Search/SearchBar";
+
 
 function AnonymousHome() {
   return (
     <div>
       <div className="d-flex justify-content-center ">
-        <SearchBar />
         <Link to="/loggedin" className="btn btn-secondary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           Sign Up

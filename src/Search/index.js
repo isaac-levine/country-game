@@ -1,4 +1,3 @@
-import SearchBar from "./SearchBar";
 import "./index.css";
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
@@ -7,8 +6,9 @@ import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 
 function Search() {
     const { searchWord } = useParams();
+    const searchWordCopy = searchWord;
     const navigate = useNavigate();
-    const [searchTerm, setSearchTerm] = useState(searchWord) || '';
+    const [searchTerm, setSearchTerm] = useState(searchWordCopy) || '';
     const [displayCount, setDisplayCount] = useState(20);
     const [showForm, setShowForm] = useState(false);
     const [language, setLanguage] = useState('');
@@ -24,7 +24,7 @@ function Search() {
     const handleShowForm = () => {setShowForm(!showForm);};
     const handleInputChange = (e) => {
         setSearchTerm(e.target.value);
-      };
+    };
 
     const handleKeyPress = (e) => {
         if (e.key === 'Enter') {
@@ -55,12 +55,12 @@ function Search() {
 
     const sortResults = () => {
         let lowercaseSearchTerm = '';
-        if(searchTerm !== undefined) {
-            lowercaseSearchTerm = searchTerm.toLowerCase();
+        if(searchWord !== undefined) {
+            lowercaseSearchTerm = searchWord.toLowerCase();
         }
         let sortedResults = results
         .sort((a, b) => a.name.common.localeCompare(b.name.common))
-        .filter((country) => (searchTerm === '' || !searchTerm ||
+        .filter((country) => (searchWord === '' || !searchWord ||
         country.name.common.toLowerCase().includes(lowercaseSearchTerm) ||
         country.region.toLowerCase().includes(lowercaseSearchTerm) ||
         (country.subregion && country.subregion.toLowerCase().includes(lowercaseSearchTerm)) ||
@@ -80,14 +80,14 @@ function Search() {
         }
         return sortedResults;
     }
+    
     const sortedResults = sortResults();
     const visibleResults = sortedResults.slice(0, displayCount);
     const nextResults = sortedResults.slice(displayCount, displayCount + 20);
     const handleLoadMore = () => {
         const visibleResults = sortedResults.slice(displayCount, displayCount + 20);
         setDisplayCount(displayCount + 20);
-      };
-   
+    };
     return(
         <div>
             <div className="container mt-5">
@@ -106,7 +106,6 @@ function Search() {
                         default={searchTerm}
                     />
                     <i className="fa fa-search">
-                        {/* onClick={handleSearch} */}
                     </i>
                     </div>
                     <div className="mt-3 mb-3">Results: {visibleResults.length} of {sortedResults.length}</div>

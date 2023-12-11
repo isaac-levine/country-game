@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PersonCircle } from "react-bootstrap-icons";
-import SearchBar from "../Search/SearchBar";
 
 function LoggedInHome() {
   const userName = "John Doe"; // Replace with user's actual name
@@ -9,7 +8,7 @@ function LoggedInHome() {
   return (
     <div>
       <div className="d-flex justify-content-center ">
-        <SearchBar />
+    
         <Link to="/welcome" className="btn btn-primary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           My Profile
