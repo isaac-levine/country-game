@@ -19,7 +19,8 @@ function App() {
     <Route path="/"         element={<Navigate to="/welcome"/>}/>
           <Route path="/welcome"    element={<AnonymousHome/>}/>
           <Route path='loggedin'   element={<LoggedInHome/>}/>
-          <Route path="/Search/*"    element={<Search/>}/>
+          <Route path="/Search"    element={<Search/>}/>
+          <Route path="/Search/:searchWord"    element={<Search/>}/>
           <Route path="/Details/:id"    element={<Details/>}/>
           <Route path="/Profile/*"    element={<Profile/>}/>
           <Route path="/Profile/Edit_Profile/*"    element={<Edit_Profile/>}/>

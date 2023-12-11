@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
-const SearchBar = ({ onSearch }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-
+const SearchBar = ({onSearch, term}) => {
+  const [searchTerm, setSearchTerm] = useState(term);
+  const navigate = useNavigate();
   const handleSearch = () => {
     onSearch(searchTerm);
   };
@@ -14,7 +15,7 @@ const SearchBar = ({ onSearch }) => {
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
-      //navigate(`/Search/${searchTerm}`);
+      navigate(`/Search/${searchTerm}`);
     }
   };
 
@@ -27,7 +28,9 @@ const SearchBar = ({ onSearch }) => {
         value={searchTerm}
         onChange={handleInputChange}
         onKeyPress={handleKeyPress}
+        default={searchTerm}
       />
+      Search term: {searchTerm}
       <i className="fa fa-search" onClick={handleSearch}></i>
     </div>
   );

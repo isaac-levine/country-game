@@ -1,26 +1,35 @@
 import SearchBar from "./SearchBar";
 import "./index.css";
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate} from 'react-router-dom';
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 
-function Search({initialSearchTerm}) {
-    const { encodedSearchTerm } = useParams();
-    const [searchTerm, setSearchTerm] = useState(encodedSearchTerm || initialSearchTerm || '');
+
+function Search() {
+    const { searchWord } = useParams();
+    const navigate = useNavigate();
+    const [searchTerm, setSearchTerm] = useState(searchWord) || '';
     const [displayCount, setDisplayCount] = useState(20);
     const [showForm, setShowForm] = useState(false);
     const [language, setLanguage] = useState('');
     const [langIsChecked, setLangIsChecked] = useState(false);
+    const [currencyIsChecked, setCurrencyIsChecked] = useState(false);
+    const [currency, setCurrency] = useState('');
     const [populationIsChecked, setPopulationIsChecked] = useState(false);
     const [minPopulation, setMinPopulation] = useState(0);
     const [maxPopulation, setMaxPopulation] = useState(8045311447);
     const handleLangCheckboxChange = () => {setLangIsChecked(!langIsChecked);};
     const handlePopulationCheckboxChange = () => {setPopulationIsChecked(!populationIsChecked);};
+    const handleCurrencyCheckboxChange = () => {setCurrencyIsChecked(!currencyIsChecked);};
     const handleShowForm = () => {setShowForm(!showForm);};
-    const handleSearch = (term) => {
-        console.log("handlesearch");
-        setSearchTerm(term);
-        setDisplayCount(5); 
+    const handleInputChange = (e) => {
+        setSearchTerm(e.target.value);
+      };
+
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            navigate(`/Search/${searchTerm}`);
+        }
     };
 
     const [results, setResults] = useState([]);
@@ -45,7 +54,10 @@ function Search({initialSearchTerm}) {
     }, []);
 
     const sortResults = () => {
-        const lowercaseSearchTerm = searchTerm.toLowerCase();
+        let lowercaseSearchTerm = '';
+        if(searchTerm !== undefined) {
+            lowercaseSearchTerm = searchTerm.toLowerCase();
+        }
         let sortedResults = results
         .sort((a, b) => a.name.common.localeCompare(b.name.common))
         .filter((country) => (searchTerm === '' || !searchTerm ||
@@ -61,6 +73,10 @@ function Search({initialSearchTerm}) {
         if(populationIsChecked) {
             sortedResults = sortedResults.filter((country) => 
             country.population >= minPopulation && country.population <= maxPopulation);
+        }
+        if(currencyIsChecked) {
+            sortedResults = sortedResults.filter((country) => 
+            country.currencies && Object.values(country.currencies).some(curr => curr.name.toLowerCase().includes(currency.toLowerCase())));
         }
         return sortedResults;
     }
@@ -79,8 +95,22 @@ function Search({initialSearchTerm}) {
                     <div className="col-md-3">
                         </div>
                     <div className="col-md-6 mb-5">
-                    <SearchBar onSearch={handleSearch} />
-                    <ul className="list-group mt-5">
+                    <div className="input-box pt-6">
+                    <input
+                        type="text"
+                        placeholder="🔍 Search for countries and country data"
+                        className="form-control"
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                        onKeyPress={handleKeyPress}
+                        default={searchTerm}
+                    />
+                    <i className="fa fa-search">
+                        {/* onClick={handleSearch} */}
+                    </i>
+                    </div>
+                    <div className="mt-3 mb-3">Results: {visibleResults.length} of {sortedResults.length}</div>
+                    <ul className="list-group">
                     {visibleResults.map(country => ( //Only showing top 20 results by default
                     <li key={country.cca2} className="list-group-item">
                         <Link className="d-inline me-2 cg-link" to={`/Details/${country.cca2}`}><strong>{country.name.common} </strong></Link>
@@ -110,6 +140,11 @@ function Search({initialSearchTerm}) {
                             Language <br/>
                             <input className="form-control" placeholder="type a language here" id="lang"
                             value={language} onChange={(e) => setLanguage(e.target.value)}/>
+                        </label> <br/>
+                        <label className="pb-2" for="currency">
+                            <input className="form-check-input me-2" type="checkbox" name="currency" checked={currencyIsChecked} onChange={handleCurrencyCheckboxChange}/>
+                            Currency <br/>
+                            <input className="form-control" placeholder="type a currency here" id="currency" value={currency} onChange={(e) => setCurrency(e.target.value)}/>
                         </label> <br/>
                         <label className="pb-2" for="population">
                             <input className="form-check-input me-2" type="checkbox" name="population" checked={populationIsChecked} onChange={handlePopulationCheckboxChange}/>
