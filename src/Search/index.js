@@ -2,7 +2,8 @@ import "./index.css";
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
-
+import GetAllCountries from "../get-all-countries";
+//TODO : add order by
 
 function Search() {
     const { searchWord } = useParams();
@@ -35,22 +36,16 @@ function Search() {
     const [results, setResults] = useState([]);
 
     useEffect(() => {
-        const fetchAndDisplayResults = async () => {
-        try {
-            const response = await fetch('https://restcountries.com/v3.1/all');
-            
-            if (!response.ok) {
-            throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-    
+        const fetchData = async () => {
+          try {
+            const data = await GetAllCountries();
             setResults(data);
-        } catch (error) {
+          } catch (error) {
             console.error('Error fetching data:', error);
-        }
+          }
         };
-
-        fetchAndDisplayResults();
+    
+        fetchData();
     }, []);
 
     const sortResults = () => {
