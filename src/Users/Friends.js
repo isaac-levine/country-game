@@ -26,7 +26,7 @@ function Friends() {
                     {users.map((user) => (
                         <tr key={user._id}>
                             <td>
-                            <Link to={`/users/${user._id}`} style={{textDecoration:'none', color: 'black'}}>
+                            <Link to={`/Profile/${user._id}`} style={{textDecoration:'none', color: 'black'}}>
                                 {user.username}
                             </Link>
                             </td>
