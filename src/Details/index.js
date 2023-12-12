@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaBucket } from "react-icons/fa6";
 import { ImCheckmark } from "react-icons/im";
+//todo maps?
 
-const CountryDetails = () => {
+const CountryDetails = ({countryID}) => {
   const { id } = useParams();
   const [countryDetails, setCountryDetails] = useState(null);
   const [traveledTo, setTraveledTo] = useState(false);
@@ -21,7 +22,6 @@ const CountryDetails = () => {
         }
 
         const data = await response.json();
-
         setCountryDetails(data);
       } catch (error) {
         console.error('Error fetching country details:', error);
@@ -67,10 +67,10 @@ const CountryDetails = () => {
             <p>
               Capital: {countryDetails.capital} <br />
               Region: {countryDetails.region} <br />
-              Currency: {JSON.stringify(countryDetails.currencies)} <br />
-              Languages {JSON.stringify(countryDetails.languages)} <br />
+              Currency: {countryDetails.currencies[0].name} ({countryDetails.currencies[0].symbol}) <br />
+              Languages: {addCommas(countryDetails.languages.map(language => " " +  language.name))} <br />
               Population: {addCommas(countryDetails.population)} <br/>
-              Gini: {countryDetails.gini}
+              Area: {countryDetails.area} km<sup>2</sup> <br/>
             </p>
           </div>
           <div className='col-md-3'></div>

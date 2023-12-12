@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { PersonCircle } from "react-bootstrap-icons";
+import SmallSearchBar from "../Search/small-search-bar";
 
 function LoggedInHome() {
   const userName = "John Doe"; // Replace with user's actual name

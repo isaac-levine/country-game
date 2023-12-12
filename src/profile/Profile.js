@@ -82,7 +82,6 @@ function Profile() {
                                 {followers.length}
                             </div>
                         </div>
-
                         <div className="bio-section">
                             <h2>A litle bit about me </h2>
                             <p>{account.bio} </p>

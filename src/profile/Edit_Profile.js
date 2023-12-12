@@ -19,7 +19,6 @@ function Edit_Profile() {
     };
     return (
         <div>
-
             <hr />
             {account && (
                 < div className="profile-main-edit-div">
