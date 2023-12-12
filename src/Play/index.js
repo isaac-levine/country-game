@@ -2,12 +2,12 @@ import GetRandomCountry from "./getrandomcountry";
 import { useState, useEffect } from 'react';
 import GetAllCountries from "../get-all-countries";
 import "./index.css"
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, Link } from "react-router-dom";
+import * as client from "./client.js"
+//TODO: Style, make scoring reflect the population of the country
 function Play() {
     const [randomCountry, setRandomCountry] = useState(null);
     const [results, setResults] = useState([]);
-    const [showAnswer, setShowAnswer] = useState(false);
     const [points, setPoints] = useState(1000);
     const [cluesAvailable, setCluesAvailable] = useState(1);
     const [guess, setGuess] = useState('');
@@ -36,7 +36,7 @@ function Play() {
         return array.join(', ');
       };
     const addCommasToNumber = (num) => {
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ", ");
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
     const handleKeyPress = (e) => { 
         if(e.key === 'Enter') {
@@ -53,6 +53,9 @@ function Play() {
         }
     }
 
+    const sendScore = async () => {
+        
+    }
     const revealClue = (num) => {
         return num <= cluesAvailable;
     }
@@ -64,7 +67,6 @@ function Play() {
         }
     }
     const revealAnswer = () => {
-        setShowAnswer(true);
         setPoints(0);
         setGameOver(true);
         setCluesAvailable(5);
@@ -96,16 +98,16 @@ function Play() {
                     </input>
                     {guessInputted && (guessCorrect ? <p>Correct!</p> : <p>Wrong!</p>)}
                     {gameOver && <p>You got {points} points</p>}
-                    <button onClick={showNextClue} disabled={cluesAvailable == 5}>Show next clue</button>
-                    <button onClick={revealAnswer} disabled={gameOver}>Reveal answer</button>
-                    <span className="d-block">Answer: {showAnswer ? randomCountry.name.common : ""}</span>
-                    <button onClick={newGame}>New game</button>
+                    <button onClick={showNextClue} disabled={cluesAvailable === 5} className="cg-button-clue btn">Show next clue</button>
+                    <button onClick={revealAnswer} disabled={gameOver} className="cg-button-reveal btn">Reveal answer</button>
+                    <span className="d-block">Answer: {gameOver ?  <Link to={`/Details/${randomCountry.cca2}`}>{randomCountry.name.common}</Link> : ""}</span>
+                    <button onClick={newGame} className="btn btn-light">New game</button>
                 </>
             )}
             </div>
             </div>
             <div className="col-4">
-                Points: {points}
+                <h3>Points: {points}</h3>
                 <p>How does it work?</p>
                 <p>Guess the country using clues provided. The more clues you use, the less points you will get. Good luck!</p>
             </div>
