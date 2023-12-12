@@ -1,8 +1,8 @@
 import Search from './Search'
 import Details from './Details';
 import './App.css';
-import Profile from './Profile/Profile';
-import Edit_Profile from './Profile/Edit_Profile';
+import Profile from './profile/Profile';
+import Edit_Profile from './profile/Edit_Profile';
 import AnonymousHome from "./Home/anonymous-home";
 import LoggedInHome from "./Home/logged-in-home";
 import Play from './Play';

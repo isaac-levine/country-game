@@ -23,10 +23,6 @@ const CountryDetails = ({countryID}) => {
         }
 
         const data = await response.json();
-<<<<<<< HEAD
-
-=======
->>>>>>> ben-dev
         setCountryDetails(data);
       } catch (error) {
         console.error('Error fetching country details:', error);
