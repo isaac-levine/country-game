@@ -8,9 +8,8 @@ function LoggedInHome() {
   const userFlag = "🇺🇸"; // replace with user's actual flag
   return (
     <div>
-      <div className="d-flex justify-content-center ">
-        <SmallSearchBar />
-        <Link to="/welcome" className="btn btn-primary" role="button">
+      <div className="d-flex">
+        <Link to="/Profile/" className="btn btn-primary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           My Profile
         </Link>
