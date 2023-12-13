@@ -9,7 +9,7 @@ export const findAllLikes = async () => {
   const response = await request.get(`${LIKES_API}/likes`);
   return response.data;
 };
-export const createUserLikesAlbum = (userId, CO) => {
+export const createUserLikesCountry = (userId, CO) => {
   const response = request.post(
     `${LIKES_API}/users/${userId}/likes/${CO}`
   );

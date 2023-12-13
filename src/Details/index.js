@@ -53,7 +53,7 @@ const CountryDetails = ({countryID}) => {
   }
 
   const like = async () => {
-    await likesClient.createUserLikesAlbum(currentUser._id, id);
+    await likesClient.createUserLikesCountry(currentUser._id, id);
   };
 
   const addCommas = (num) => {

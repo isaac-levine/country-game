@@ -91,7 +91,7 @@ function Profile() {
                         <div className="bio-section">
                             <div className="list-group">
                                 {likes.map((like) => (
-                                    <p2>{like}</p2>
+                                    <p2>like</p2>
                                 ))}
                                 </div>
                         </div>
