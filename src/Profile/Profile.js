@@ -109,7 +109,7 @@ function Profile() {
                         </div>
 
                         <div className="bio-section">
-                            <h2>A litle bit about me </h2>
+                            <h2>A little bit about me </h2>
                             <p>{account.bio} </p>
                         </div>
                         <div className="bio-section">

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import GetAllCountries from "../get-all-countries";
+import * as client from "../Likes/client.js";
 //TODO : add order by
 
 function Search() {
@@ -19,6 +20,8 @@ function Search() {
     const [populationIsChecked, setPopulationIsChecked] = useState(false);
     const [minPopulation, setMinPopulation] = useState(0);
     const [maxPopulation, setMaxPopulation] = useState(8045311447);
+    const [traveledToCounts, setTraveledToCounts] = useState({});
+    const [bucketListCounts, setBucketListCounts] = useState({});
     const handleLangCheckboxChange = () => {setLangIsChecked(!langIsChecked);};
     const handlePopulationCheckboxChange = () => {setPopulationIsChecked(!populationIsChecked);};
     const handleCurrencyCheckboxChange = () => {setCurrencyIsChecked(!currencyIsChecked);};
@@ -40,6 +43,17 @@ function Search() {
           try {
             const data = await GetAllCountries();
             setResults(data);
+            const countsObject = {};
+            const countsObject2 = {};
+            for (const countryID of data.map(country => country.cca2)) {
+                console.log(countryID);
+                const traveledTo = await client.getTraveledToByCountry(countryID);
+                countsObject[countryID] = traveledTo.length;
+                const onBucketList = await client.getOnBucketListByCountry(countryID);
+                countsObject2[countryID] = onBucketList.length;
+            }
+            setTraveledToCounts(countsObject);
+            setBucketListCounts(countsObject2);
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -47,6 +61,18 @@ function Search() {
     
         fetchData();
     }, []);
+
+    const getTraveledToByCountry = async (countryID) => {
+        const traveledTo = await client.getTraveledToByCountry(countryID);
+        console.log(traveledTo);
+        console.log(traveledTo.length);
+        return parseInt(traveledTo.length, 10);
+    }
+
+    const getOnBucketListByCountry = async (countryID) => {
+        const onBucketList = await client.getOnBucketListByCountry(countryID);
+        return onBucketList;
+    }
 
     const sortResults = () => {
         let lowercaseSearchTerm = '';
@@ -113,7 +139,8 @@ function Search() {
                         <p>Capital: {country.capital}<br/>
                         Region: {country.region} <br/>
                         Subregion: {country.subregion} </p>
-                      
+                        Traveled to: {traveledToCounts[country.cca2] || 0} <br/>
+                        On Bucket List: {bucketListCounts[country.cca2] || 0}
                     </li>
                     ))}
                 </ul>

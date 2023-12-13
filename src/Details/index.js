@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaBucket } from "react-icons/fa6";
 import { ImCheckmark } from "react-icons/im";
+import * as client from "../Users/client.js";
+import * as likesClient from "../Likes/client.js";
 //todo maps?
 
 const CountryDetails = ({countryID}) => {
@@ -11,6 +13,8 @@ const CountryDetails = ({countryID}) => {
   const [countryDetails, setCountryDetails] = useState(null);
   const [traveledTo, setTraveledTo] = useState(false);
   const [onBucketList, setOnBucketList] = useState(false);
+  const [account, setAccount] = useState(null);
+  
 
   useEffect(() => {
     const fetchCountryDetails = async () => {
@@ -29,7 +33,47 @@ const CountryDetails = ({countryID}) => {
     };
 
     fetchCountryDetails();
-  }, [id]);
+    fetchAccount();
+  }, [id, traveledTo, onBucketList]);
+
+  useEffect(() => {
+    fetchUserLikesCountry();
+  }, [account]);
+
+  const fetchAccount = async () => {
+    const account = await client.account();
+    setAccount(account);
+  };
+
+  const fetchUserLikesCountry = async () => {
+    console.log("fetchUserLikesCountry");
+    if(account) {
+      console.log("here!");
+      const likesCountry = await likesClient.getUserLikesCountry(account._id, id);
+      console.log(likesCountry);
+      if(likesCountry) {
+        console.log("did the" + likesCountry.traveledTo)
+        setTraveledTo(likesCountry.traveledTo);
+        setOnBucketList(likesCountry.onBucketList);
+      }
+  }
+  }
+
+  useEffect(() => {
+    if(account) {
+      likeCountry();
+    }
+  }, [traveledTo, onBucketList]);
+
+  const likeCountry = async () => {
+    const likesCountry = await likesClient.getUserLikesCountry(account._id, id);
+    if(likesCountry.length === 0) {
+      const response = await likesClient.createLike(account._id, id);
+    }
+    const updateResponse = await likesClient.updateLike(account._id, id, traveledTo, onBucketList);
+    console.log(updateResponse);
+  };
+
 
   if (!countryDetails) {
     return <div>Loading...</div>;
@@ -37,7 +81,7 @@ const CountryDetails = ({countryID}) => {
 
   const handleTraveledToClick = () => {
     setTraveledTo(!traveledTo);
-  }
+  };
 
   const handleOnBucketListClick = () => {
     setOnBucketList(!onBucketList);
@@ -73,7 +117,9 @@ const CountryDetails = ({countryID}) => {
               Area: {countryDetails.area} km<sup>2</sup> <br/>
             </p>
           </div>
-          <div className='col-md-3'></div>
+          <div className='col-md-3'>
+            Current User: {account && account.username}
+          </div>
         </div>
       </div>
     </div>
