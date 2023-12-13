@@ -12,22 +12,23 @@ function LoggedInHome() {
   const fetchAccount = async () => {
     const account = await client.account();
     setAccount(account);
-    await fetchUserScores();
+    console.log(account);
+    await fetchUserScores(account.username);
   };
   const fetchData = async () => {
     try {
-      console.log("fetching data");
       const top5Scores = await gameClient.GetTopScorers();
       setTop5Scores(top5Scores);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  const fetchUserScores = async () => {
+  const fetchUserScores = async (username) => {
     try {
-      console.log("fetching data");
-      const recentUserScores = await gameClient.GetRecentUserScores(account.username);
+      console.log("fetching data for " + username);
+      const recentUserScores = await gameClient.GetRecentUserScores(username);
       setRecentUserScores(recentUserScores);
+      console.log(recentUserScores);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -68,9 +69,9 @@ function LoggedInHome() {
           </div>
           <div className="col-6">
           Your Recent scores:
-          {recentUserScores.map((score, index) => (
+          {recentUserScores && recentUserScores.map((score, index) => (
             <div key={index}>
-              {index + 1}. {score.username} - {score.score} pts
+              {index + 1}. {score.pts} pts
             </div>
           ))}
           </div>

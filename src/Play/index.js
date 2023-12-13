@@ -17,6 +17,7 @@ function Play() {
     const [guessCorrect, setGuessCorrect] = useState(false);
     const [guessInputted, setGuessInputted] = useState(false);
     const [account, setAccount] = useState(null);
+    const [answerRevealed, setAnswerRevealed] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -56,8 +57,7 @@ function Play() {
                 setGameOver(true);
                 setGuessCorrect(true);
                 setCluesAvailable(5);
-                sendScore();
-                // TODO: send data to server
+                sendScore(points);
             }
             else {
                 setGameOver(false);
@@ -65,12 +65,12 @@ function Play() {
         }
     }
 
-    const sendScore = async () => {
-        console.log(points);
+    const sendScore = async (score) => {
         const response = await client.PostGameScore({
-            username: account.username, gameId: "1", pts: points.toString()
+            username: account.username, gameId: "1", pts: score
         })
     }
+
     const revealClue = (num) => {
         return num <= cluesAvailable;
     }
@@ -81,12 +81,20 @@ function Play() {
             setPoints(points - 200);
         }
     }
-    const revealAnswer = () => {
-        setPoints(0);
-        setGameOver(true);
-        sendScore();
-        setCluesAvailable(5);
-    }
+    const revealAnswer = async () => {
+        try {
+          setPoints(0);
+          setAnswerRevealed(true);
+          setGameOver(true);
+      
+          // Wait for the asynchronous operation to complete before proceeding
+          await sendScore(0);
+          setCluesAvailable(5);
+        } catch (error) {
+          console.error('Error in revealAnswer:', error);
+        }
+      };
+      
 
 
     const newGame = () => {

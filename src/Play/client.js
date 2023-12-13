@@ -19,16 +19,22 @@ export const GetTopScorers = async () => {
     const userList = users.data;
     for(let i = 0; i < userList.length; i++) {
         const user = userList[i];
-        const userScores = await request.get(`${GAME_DATA_API}/user/${user}/game/1`);
+        const userScores = await request.get(`${GAME_DATA_API}/user/${user}/game/1/average`);
         if(userScores.data > 0) {
             response.push({username : user, score :userScores.data});
         }   
     }
-    return response.sort((a, b) => b.pts - a.pts).slice(0, 5);
+    return response.sort((a, b) => b.score - a.score).slice(0, 5);
 }
 
+//Could change this to hold timestamps
 export const GetRecentUserScores = async (username) => {
     const response = await request.get(`${GAME_DATA_API}/user/${username}/game/1`);
+    return response.data.reverse().slice(0, 5);
+}
+
+export const GetAverageScore = async (username) => {
+    const response = await request.get(`${GAME_DATA_API}/user/${username}/game/1/average`);
     return response.data;
 }
 
