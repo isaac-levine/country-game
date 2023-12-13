@@ -2,15 +2,19 @@ import * as client from "../Users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import { useSelector } from "react-redux";
 
 import "./index.css";
 
 function OtherUsers() {
     const { id } = useParams();
     const [account, setAccount] = useState(null);
-    const { currentUser } = useSelector((state) => state.usersReducer);
-    const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState(null);
+
+    const fetchCurrentUser = async () => {
+        const user = await client.account();
+        setCurrentUser(user);
+    };
+   
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
 
@@ -24,11 +28,16 @@ function OtherUsers() {
 
 
     const follow = async () => {
-        console.log(currentUser._id);
-        await followsClient.createUserFollowsUser(currentUser._id, account._id);
+        if (currentUser.status === "PRO") {
+            await followsClient.createUserFollowsUser(currentUser._id, account._id);
+            await followsClient.createUserFollowsUser(account._id, currentUser._id);
+        } else {
+            await followsClient.createUserFollowsUser(currentUser._id, account._id); 
+        }
+        
     };
 
-    const fetchFollowers = async (userId) => {
+    const fetchFollowers = async (id) => {
         const followers = await followsClient.findUsersFollowingUser(id);
         setFollowers(followers);
     };
@@ -39,27 +48,20 @@ function OtherUsers() {
     };
 
     const alreadyFollowing = () => {
-        return followers.find(
-            (follows) => follows.follower.id === currentUser.id
-        );
+        {console.log(currentUser?._id)}
+        
+        return followers.find((follows) => follows.follower._id === currentUser._id);
     };
-
-    const following_bool = () => {
-        if (alreadyFollowing) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     useEffect(() => {
         fetchUser();
+        fetchCurrentUser();
 
     }, [id]);
 
     return (
         <div>
+            
             {currentUser?._id !== id && (
                 <>
                     {alreadyFollowing() ? (
@@ -73,7 +75,6 @@ function OtherUsers() {
             )}
             {account && (
                 <div>
-                    {!following_bool && (<button type="button" onClick={follow} className="btn btn-success float-end" > Follow </button>)}
                     <div className="profile-main">
                         <h1>User: {account.username}</h1>
                         <div className="d-flex">

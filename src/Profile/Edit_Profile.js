@@ -43,7 +43,10 @@ function Edit_Profile() {
                     <div className="bio-section">
                         <h2>My countries of origin are...</h2>
                         <p>There should be a list of flags here/Search for flags were a user can select</p>
-                        <textarea className="form-control" rows="5" id="comment" value="Little story about where they are from/whatever they wish to share on this portion"></textarea>
+                        <textarea className="form-control" rows="5" id="comment" value={account.origins} onChange={(e) => setAccount({
+                            ...account,
+                            origins: e.target.value
+                        })}></textarea>
                     </div>
                     <div className="bio-section">
                         <h2>I want to travel to ... </h2>

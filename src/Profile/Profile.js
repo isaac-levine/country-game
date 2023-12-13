@@ -1,69 +1,65 @@
 import * as client from "../Users/client";
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState} from "react";
+import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import { setCurrentUser } from "../Users/reducer";
-import { useDispatch } from "react-redux";
+import * as likesClient from "../likes/client";
 
 import "./index.css";
 
 function Profile() {
-    const { id } = useParams();
     const [account, setAccount] = useState(null);
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
+    const [likes, setLikes] = useState([]);
     const navigate = useNavigate();
-    const dispatch = useDispatch();
 
     const signout = async () => {
         await client.signout();
-        dispatch(setCurrentUser(null));
         navigate("/welcome");
     };
 
-    const findUserById = async (id) => {
-        const user = await client.findUserById(id);
-        setAccount(user);
-    };
-
-    const fetchAccount = async () => {
-        const account = await client.account();
-        fetchFollowing(account._id);
-        fetchFollowers(account._id);
-        setAccount(account);
+    const fetchUser = async () => {
+        try {
+            const user = await client.account();
+            setAccount(user);
+            fetchFollowing(user._id);
+            fetchFollowers(user._id);
+        } catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     const fetchFollowers = async (id) => {
-        if (!account) {
-            return;
-        }
         const followers = await followsClient.findUsersFollowingUser(id);
         setFollowers(followers);
     };
 
     const fetchFollowing = async (id) => {
-        if (!account) {
-            return;
-        }
         const following = await followsClient.findUsersFollowedByUser(id);
         setFollowing(following);
     };
 
-    useEffect(() => {
-        if (id) {
-            findUserById(id);
-        } else {
-            fetchAccount();
-        }
+    const fetchCountryLikes = async (id) => {
+        const likes = await likesClient.findUsersWhoLikeAlbum(id);
+        setLikes(likes);
+    };
+
+    useState(() => {
+        fetchUser();
     }, []);
     return (
         <div>
             {!account &&
-                (<div>
-                    <h1>Please Sign in to access profile</h1>
-                    <button type="button" className="btn btn-primary" onClick={() => navigate("/login")}> Sign in </button>
-                </div>)
+                <div className="restrict_from_none_sign_in">
+                    <h2>Please sign in to see your profile or sign up</h2>
+                    <Link to={`/Login`}>
+                        <button type="button" className="btn btn-primary"> Sign in </button>
+                    </Link>
+                    <Link to={`/signup`}>
+                        <button type="button" className="btn btn-primary"> Sign Up </button>
+                    </Link>
+                </div>
             }
             {account && (
                 <div>
@@ -89,9 +85,15 @@ function Profile() {
                         </div>
                         <div className="bio-section">
                             <h2>My countries of origin are...</h2>
+                            <p>{account.origins}</p>
                         </div>
+                        <h2>I want to travel to</h2>
                         <div className="bio-section">
-                            <h2>I want to travel to ... </h2>
+                            <div className="list-group">
+                                {likes.map((like) => (
+                                    <p2>{like}</p2>
+                                ))}
+                                </div>
                         </div>
                         <div className="bio-section">
                             <h2>I have traveled to ... </h2>
