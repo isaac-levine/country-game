@@ -5,11 +5,12 @@ function AnonymousHome() {
   return (
     <div>
       <div className="d-flex justify-content-center ">
-        <Link to="/loggedin" className="btn btn-secondary" role="button">
+        
+        <Link to="/signup" className="btn btn-secondary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           Sign Up
         </Link>
-        <Link to="/loggedin" className="btn btn-primary" role="button">
+        <Link to="/Login" className="btn btn-primary" role="button">
           {/* <PersonCircle size={30} className="mr-3" /> */}
           Sign In
         </Link>

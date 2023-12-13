@@ -40,6 +40,9 @@ function Play() {
     }
     const handleKeyPress = (e) => { 
         if(e.key === 'Enter') {
+            if(gameOver) {
+                newGame();
+            }
             setGuessInputted(true);
             if(guess.toLowerCase() === randomCountry.name.common.toLowerCase()) {
                 setGameOver(true);
@@ -54,7 +57,7 @@ function Play() {
     }
 
     const sendScore = async () => {
-        
+
     }
     const revealClue = (num) => {
         return num <= cluesAvailable;

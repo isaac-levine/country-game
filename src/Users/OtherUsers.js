@@ -1,75 +1,79 @@
 import * as client from "../Users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import { setCurrentUser } from "../Users/reducer";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import "./index.css";
 
-function Profile() {
+function OtherUsers() {
     const { id } = useParams();
     const [account, setAccount] = useState(null);
+    const { currentUser } = useSelector((state) => state.usersReducer);
+    const navigate = useNavigate();
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
-    const signout = async () => {
-        await client.signout();
-        dispatch(setCurrentUser(null));
-        navigate("/welcome");
-    };
 
-    const findUserById = async (id) => {
+    const fetchUser = async () => {
         const user = await client.findUserById(id);
         setAccount(user);
+        fetchFollowers(user._id);
+        fetchFollowing(user._id);
     };
 
-    const fetchAccount = async () => {
-        const account = await client.account();
-        fetchFollowing(account._id);
-        fetchFollowers(account._id);
-        setAccount(account);
+
+    const follow = async () => {
+        console.log(currentUser._id);
+        await followsClient.createUserFollowsUser(currentUser._id, account._id);
     };
 
-    const fetchFollowers = async (id) => {
-        if (!account) {
-            return;
-        }
+    const fetchFollowers = async (userId) => {
         const followers = await followsClient.findUsersFollowingUser(id);
         setFollowers(followers);
     };
 
     const fetchFollowing = async (id) => {
-        if (!account) {
-            return;
-        }
         const following = await followsClient.findUsersFollowedByUser(id);
         setFollowing(following);
     };
 
-    useEffect(() => {
-        if (id) {
-            findUserById(id);
-        } else {
-            fetchAccount();
+    const alreadyFollowing = () => {
+        return followers.find(
+            (follows) => follows.follower.id === currentUser.id
+        );
+    };
+
+    const following_bool = () => {
+        if (alreadyFollowing) {
+            return true;
         }
-    }, []);
+        else {
+            return false;
+        }
+    }
+
+    useEffect(() => {
+        fetchUser();
+
+    }, [id]);
+
     return (
         <div>
-            {!account &&
-                (<div>
-                    <h1>Please Sign in to access profile</h1>
-                    <button type="button" className="btn btn-primary" onClick={() => navigate("/login")}> Sign in </button>
-                </div>)
-            }
+            {currentUser?._id !== id && (
+                <>
+                    {alreadyFollowing() ? (
+                        <button className="btn btn-danger float-end">Following</button>
+                    ) : (
+                        <button onClick={follow} className="btn btn-primary float-end">
+                            Follow
+                        </button>
+                    )}
+                </>
+            )}
             {account && (
                 <div>
-                    <Link to={`/Friends`}><button type="button" className="btn btn-success float-end" > Find Friends </button> </Link>
-                    <Link to={`/Profile/Edit_Profile`}><button type="button" className="btn btn-primary float-end" > Edit Profile </button> </Link>
-                    <button type="button" className="btn btn-danger float-end" onClick={signout} > Sign out </button>
+                    {!following_bool && (<button type="button" onClick={follow} className="btn btn-success float-end" > Follow </button>)}
                     <div className="profile-main">
                         <h1>User: {account.username}</h1>
                         <div className="d-flex">
@@ -104,4 +108,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default OtherUsers;

@@ -50,7 +50,7 @@ function Search() {
 
     const sortResults = () => {
         let lowercaseSearchTerm = '';
-        if(searchWord !== undefined) {
+        if(searchWord != undefined) {
             lowercaseSearchTerm = searchWord.toLowerCase();
         }
         let sortedResults = results
@@ -77,10 +77,10 @@ function Search() {
     }
     
     const sortedResults = sortResults();
-    const visibleResults = sortedResults.slice(0, displayCount);
+    let visibleResults = sortedResults.slice(0, displayCount);
     const nextResults = sortedResults.slice(displayCount, displayCount + 20);
     const handleLoadMore = () => {
-        const visibleResults = sortedResults.slice(displayCount, displayCount + 20);
+        visibleResults = sortedResults.slice(displayCount, displayCount + 20);
         setDisplayCount(displayCount + 20);
     };
     return(
