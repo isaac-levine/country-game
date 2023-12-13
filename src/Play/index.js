@@ -4,6 +4,7 @@ import GetAllCountries from "../get-all-countries";
 import "./index.css"
 import { useNavigate, Link } from "react-router-dom";
 import * as client from "./client.js"
+import * as userClient from "../Users/client.js";
 //TODO: Style, make scoring reflect the population of the country
 function Play() {
     const [randomCountry, setRandomCountry] = useState(null);
@@ -14,8 +15,8 @@ function Play() {
     const handleGuessChange = (e) => { setGuess(e.target.value); }
     const [gameOver, setGameOver] = useState(false);
     const [guessCorrect, setGuessCorrect] = useState(false);
-    const navigate = useNavigate();
     const [guessInputted, setGuessInputted] = useState(false);
+    const [account, setAccount] = useState(null);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,7 +31,14 @@ function Play() {
         };
 
         fetchData();
+        fetchAccount();
     }, []);
+
+    const fetchAccount = async () => {
+        const account = await userClient.account();
+        setAccount(account);
+    };
+
 
     const addCommas = (array) => {
         return array.join(', ');
@@ -48,6 +56,7 @@ function Play() {
                 setGameOver(true);
                 setGuessCorrect(true);
                 setCluesAvailable(5);
+                sendScore();
                 // TODO: send data to server
             }
             else {
@@ -57,7 +66,10 @@ function Play() {
     }
 
     const sendScore = async () => {
-
+        console.log(points);
+        const response = await client.PostGameScore({
+            username: account.username, gameId: "1", pts: points.toString()
+        })
     }
     const revealClue = (num) => {
         return num <= cluesAvailable;
@@ -72,6 +84,7 @@ function Play() {
     const revealAnswer = () => {
         setPoints(0);
         setGameOver(true);
+        sendScore();
         setCluesAvailable(5);
     }
 
@@ -110,6 +123,7 @@ function Play() {
             </div>
             </div>
             <div className="col-4">
+                {account && account.username}
                 <h3>Points: {points}</h3>
                 <p>How does it work?</p>
                 <p>Guess the country using clues provided. The more clues you use, the less points you will get. Good luck!</p>
