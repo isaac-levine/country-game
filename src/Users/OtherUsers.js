@@ -48,8 +48,6 @@ function OtherUsers() {
     };
 
     const alreadyFollowing = () => {
-        {console.log(currentUser?._id)}
-        
         return followers.find((follows) => follows.follower._id === currentUser._id);
     };
 

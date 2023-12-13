@@ -4,6 +4,7 @@ import GetAllCountries from "../get-all-countries";
 import "./index.css"
 import { useNavigate, Link } from "react-router-dom";
 import * as client from "./client.js"
+import * as userClient from "../Users/client.js";
 //TODO: Style, make scoring reflect the population of the country
 function Play() {
     const [randomCountry, setRandomCountry] = useState(null);
@@ -14,8 +15,9 @@ function Play() {
     const handleGuessChange = (e) => { setGuess(e.target.value); }
     const [gameOver, setGameOver] = useState(false);
     const [guessCorrect, setGuessCorrect] = useState(false);
-    const navigate = useNavigate();
     const [guessInputted, setGuessInputted] = useState(false);
+    const [account, setAccount] = useState(null);
+    const [answerRevealed, setAnswerRevealed] = useState(false);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,7 +32,14 @@ function Play() {
         };
 
         fetchData();
+        fetchAccount();
     }, []);
+
+    const fetchAccount = async () => {
+        const account = await userClient.account();
+        setAccount(account);
+    };
+
 
     const addCommas = (array) => {
         return array.join(', ');
@@ -40,12 +49,15 @@ function Play() {
     }
     const handleKeyPress = (e) => { 
         if(e.key === 'Enter') {
+            if(gameOver) {
+                newGame();
+            }
             setGuessInputted(true);
             if(guess.toLowerCase() === randomCountry.name.common.toLowerCase()) {
                 setGameOver(true);
                 setGuessCorrect(true);
                 setCluesAvailable(5);
-                // TODO: send data to server
+                sendScore(points);
             }
             else {
                 setGameOver(false);
@@ -53,9 +65,12 @@ function Play() {
         }
     }
 
-    const sendScore = async () => {
-        
+    const sendScore = async (score) => {
+        const response = await client.PostGameScore({
+            username: account.username, gameId: "1", pts: score
+        })
     }
+
     const revealClue = (num) => {
         return num <= cluesAvailable;
     }
@@ -66,11 +81,20 @@ function Play() {
             setPoints(points - 200);
         }
     }
-    const revealAnswer = () => {
-        setPoints(0);
-        setGameOver(true);
-        setCluesAvailable(5);
-    }
+    const revealAnswer = async () => {
+        try {
+          setPoints(0);
+          setAnswerRevealed(true);
+          setGameOver(true);
+      
+          // Wait for the asynchronous operation to complete before proceeding
+          await sendScore(0);
+          setCluesAvailable(5);
+        } catch (error) {
+          console.error('Error in revealAnswer:', error);
+        }
+      };
+      
 
 
     const newGame = () => {
@@ -107,6 +131,7 @@ function Play() {
             </div>
             </div>
             <div className="col-4">
+                Current User: {account && account.username}
                 <h3>Points: {points}</h3>
                 <p>How does it work?</p>
                 <p>Guess the country using clues provided. The more clues you use, the less points you will get. Good luck!</p>

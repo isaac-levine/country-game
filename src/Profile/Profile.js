@@ -4,6 +4,9 @@ import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
 import * as likesClient from "../likes/client";
+import { setCurrentUser } from "../Users/reducer";
+import { useDispatch } from "react-redux";
+import * as gameClient from "../Play/client";
 
 import "./index.css";
 
@@ -12,6 +15,8 @@ function Profile() {
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
     const [likes, setLikes] = useState([]);
+    const [recentUserScores, setRecentUserScores] = useState([]);
+    const [averageScore, setAverageScore] = useState(0);
     const navigate = useNavigate();
 
     const signout = async () => {
@@ -21,10 +26,12 @@ function Profile() {
 
     const fetchUser = async () => {
         try {
-            const user = await client.account();
-            setAccount(user);
-            fetchFollowing(user._id);
-            fetchFollowers(user._id);
+            const account = await client.account();
+            fetchFollowing(account._id);
+            fetchFollowers(account._id);
+            setAccount(account);
+            fetchUserScores(account.username);
+            fetchAverageScore(account.username);
         } catch (error) {
             console.log('[error]', error.response);
         }
@@ -40,10 +47,30 @@ function Profile() {
         setFollowing(following);
     };
 
+    const fetchUserScores = async (username) => {
+        try {
+          console.log("fetching data for " + username);
+          const recentUserScores = await gameClient.GetRecentUserScores(username);
+          setRecentUserScores(recentUserScores);
+          console.log(recentUserScores);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+    
+    const fetchAverageScore = async (username) => {
+        try {
+            const averageScore = await gameClient.GetAverageScore(username);
+            setAverageScore(averageScore);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
     const fetchCountryLikes = async (id) => {
         const likes = await likesClient.findUsersWhoLikeAlbum(id);
         setLikes(likes);
-    };
+    }
 
     useState(() => {
         fetchUser();
@@ -98,6 +125,15 @@ function Profile() {
                         <div className="bio-section">
                             <h2>I have traveled to ... </h2>
                         </div>
+                        <div>
+                            <h2>My recent scores</h2>
+                            {recentUserScores && recentUserScores.map((score, index) => (
+                                <div key={index}>
+                                    {index + 1}. {score.pts} pts
+                                </div>
+                            ))}
+                            Average: {averageScore}
+                            </div>
                     </div>
 
                 </div>
