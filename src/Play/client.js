@@ -1,5 +1,4 @@
 import axios from "axios";
-import * as userClient from "../Users/client.js";
 
 const request = axios.create({
     withCredentials: true,
@@ -14,17 +13,22 @@ export const PostGameScore = async (score) => {
     return response.data;
 };
 
-export const GetTop5Scorers = async () => {
-    const users = await userClient.findAllUsers();
+export const GetTopScorers = async () => {
+    const users = await request.get(`${GAME_DATA_API}/users`);
     let response = [];
-    for(let i = 0; i < users.length; i++) {
-        const user = users[i];
-        const userScores = await request.get(`${GAME_DATA_API}/user/${user._id}/game/1`);
-        console.log(userScores);
-        if(userScores > 0) {
-            response.push(userScores.data);
+    const userList = users.data;
+    for(let i = 0; i < userList.length; i++) {
+        const user = userList[i];
+        const userScores = await request.get(`${GAME_DATA_API}/user/${user}/game/1`);
+        if(userScores.data > 0) {
+            response.push({username : user, score :userScores.data});
         }   
     }
     return response.sort((a, b) => b.pts - a.pts).slice(0, 5);
+}
+
+export const GetRecentUserScores = async (username) => {
+    const response = await request.get(`${GAME_DATA_API}/user/${username}/game/1`);
+    return response.data;
 }
 

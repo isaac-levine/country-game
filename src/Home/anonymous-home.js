@@ -8,7 +8,7 @@ function AnonymousHome() {
     const fetchData = async () => {
       try {
         console.log("fetching data");
-        const top5Scores = await client.GetTop5Scorers();
+        const top5Scores = await client.GetTopScorers();
         setTop5Scores(top5Scores);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -35,7 +35,7 @@ function AnonymousHome() {
           Highest Scorers: 
           {top5Scores.map((score, index) => (
             <div key={index}>
-              {index + 1}. {score.username} - {score.pts} points
+              {index + 1}. {score.username} - {score.score} points
             </div>
           ))}
         </div>

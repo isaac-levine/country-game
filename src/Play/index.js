@@ -123,7 +123,7 @@ function Play() {
             </div>
             </div>
             <div className="col-4">
-                {account && account.username}
+                Current User: {account && account.username}
                 <h3>Points: {points}</h3>
                 <p>How does it work?</p>
                 <p>Guess the country using clues provided. The more clues you use, the less points you will get. Good luck!</p>
