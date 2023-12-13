@@ -1,10 +1,42 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { PersonCircle } from "react-bootstrap-icons";
 import SmallSearchBar from "../Search/small-search-bar";
+import * as client from "../Users/client.js";
+import * as gameClient from "../Play/client.js";
 
 function LoggedInHome() {
-  const userName = "John Doe"; // Replace with user's actual name
+  const [account, setAccount] = useState(null);
+  const [top5Scores, setTop5Scores] = useState([]);
+  const [recentUserScores, setRecentUserScores] = useState([]);
+  const fetchAccount = async () => {
+    const account = await client.account();
+    setAccount(account);
+    console.log(account);
+    await fetchUserScores(account.username);
+  };
+  const fetchData = async () => {
+    try {
+      const top5Scores = await gameClient.GetTopScorers();
+      setTop5Scores(top5Scores);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+  const fetchUserScores = async (username) => {
+    try {
+      console.log("fetching data for " + username);
+      const recentUserScores = await gameClient.GetRecentUserScores(username);
+      setRecentUserScores(recentUserScores);
+      console.log(recentUserScores);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
+  useEffect(() => {
+        fetchData();
+        fetchAccount();
+  }, []);
   const userFlag = "🇺🇸"; // replace with user's actual flag
   return (
     <div>
@@ -17,15 +49,33 @@ function LoggedInHome() {
 
       <div className="d-flex flex-column align-items-center justify-content-center vh-100">
         <h1 className="mb-5">
-          Welcome, {userName}! {userFlag}
+          {account && <p>Welcome, {account.username}! {userFlag}</p>}
         </h1>
         <div className="d-flex flex-column align-items-center">
-          <a href="#" className="btn btn-primary btn-lg mb-3" role="button">
+          <Link to="/Play" className="btn btn-primary btn-lg mb-3" role="button">
             Play Game
-          </a>
-          <a href="#" className="btn btn-dark btn-lg mb-3" role="button">
+          </Link>
+          {/* <a href="#" className="btn btn-dark btn-lg mb-3" role="button">
             🏆 View Leaderboards
-          </a>
+          </a> */}
+          <div className="row">
+            <div className="col-6"> 
+          Highest Scorers: 
+          {top5Scores.map((score, index) => (
+            <div key={index}>
+              {index + 1}. {score.username} - {score.score} pts
+            </div>
+          ))}
+          </div>
+          <div className="col-6">
+          Your Recent scores:
+          {recentUserScores && recentUserScores.map((score, index) => (
+            <div key={index}>
+              {index + 1}. {score.pts} pts
+            </div>
+          ))}
+          </div>
+          </div>
         </div>
       </div>
     </div>

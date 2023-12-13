@@ -40,7 +40,7 @@ function OtherUsers() {
 
     const alreadyFollowing = () => {
         return followers.find(
-            (follows) => follows.follower.id === currentUser.id
+            (follows) => follows.follower.id === currentUser._id
         );
     };
 
