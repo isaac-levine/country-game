@@ -11,19 +11,28 @@ function OtherUsers() {
     const [currentUser, setCurrentUser] = useState(null);
 
     const fetchCurrentUser = async () => {
-        const user = await client.account();
-        setCurrentUser(user);
+        try {
+            const user = await client.account();
+            setCurrentUser(user);
+        } catch (error) {
+            console.log('[error]', error.response);
+        }
     };
-   
+
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
 
 
     const fetchUser = async () => {
-        const user = await client.findUserById(id);
-        setAccount(user);
-        fetchFollowers(user._id);
-        fetchFollowing(user._id);
+        try {
+            const user = await client.findUserById(id);
+            setAccount(user);
+            fetchFollowers(user._id);
+            fetchFollowing(user._id);
+        } catch
+        (error) {
+            console.log('[error]', error.response);
+        }
     };
 
 
@@ -32,23 +41,37 @@ function OtherUsers() {
             await followsClient.createUserFollowsUser(currentUser._id, account._id);
             await followsClient.createUserFollowsUser(account._id, currentUser._id);
         } else {
-            await followsClient.createUserFollowsUser(currentUser._id, account._id); 
+            await followsClient.createUserFollowsUser(currentUser._id, account._id);
         }
-        
+
     };
 
     const fetchFollowers = async (id) => {
-        const followers = await followsClient.findUsersFollowingUser(id);
-        setFollowers(followers);
+        try {
+            const followers = await followsClient.findUsersFollowingUser(id);
+            setFollowers(followers);
+        }
+        catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     const fetchFollowing = async (id) => {
-        const following = await followsClient.findUsersFollowedByUser(id);
-        setFollowing(following);
+        try {
+            const following = await followsClient.findUsersFollowedByUser(id);
+            setFollowing(following);
+        } catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     const alreadyFollowing = () => {
-        return followers.find((follows) => follows.follower._id === currentUser._id);
+        try {
+            return followers.find((follows) => follows.follower._id === currentUser._id);
+        }
+        catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     useEffect(() => {
@@ -59,7 +82,6 @@ function OtherUsers() {
 
     return (
         <div>
-            
             {currentUser?._id !== id && (
                 <>
                     {alreadyFollowing() ? (
@@ -85,20 +107,23 @@ function OtherUsers() {
                                 {followers.length}
                             </div>
                         </div>
-
-                        <div className="bio-section">
-                            <h2>A litle bit about me </h2>
-                            <p>{account.bio} </p>
-                        </div>
-                        <div className="bio-section">
-                            <h2>My countries of origin are...</h2>
-                        </div>
-                        <div className="bio-section">
-                            <h2>I want to travel to ... </h2>
-                        </div>
-                        <div className="bio-section">
-                            <h2>I have traveled to ... </h2>
-                        </div>
+                        {currentUser?._id && (
+                            <div>
+                                <div className="bio-section">
+                                    <h2>A litle bit about me </h2>
+                                    <p>{account.bio} </p>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>My countries of origin are...</h2>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>I want to travel to ... </h2>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>I have traveled to ... </h2>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                 </div>
