@@ -58,26 +58,57 @@ function LoggedInHome() {
           {/* <a href="#" className="btn btn-dark btn-lg mb-3" role="button">
             🏆 View Leaderboards
           </a> */}
-          <div className="row">
-            <div className="col-6"> 
-          Highest Scorers: 
-          {top5Scores.map((score, index) => (
-            <div key={index}>
-              {index + 1}. {score.username} - {score.score} pts
-            </div>
-          ))}
-          </div>
-          <div className="col-6">
-          Your Recent scores:
-          {recentUserScores && recentUserScores.map((score, index) => (
-            <div key={index}>
-              {index + 1}. {score.pts} pts
-            </div>
-          ))}
-          </div>
-          </div>
+      <div className="row">
+  <div className="col-5">
+    <h3 className="mb-3">Highest Scorers:</h3>
+    <table className="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Username</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {top5Scores.map((score, index) => (
+          <tr key={index}>
+            <th scope="row">{index + 1}</th>
+            <td>{score.username}</td>
+            <td>{score.score} pts</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <div className="col-md-5">
+    <h3 className="mb-3">Your Recent Scores:</h3>
+    <table className="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {recentUserScores && recentUserScores.map((score, index) => (
+          <tr key={index}>
+            <th scope="row">{index + 1}</th>
+            <td>{score.pts} pts</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+    
+  </div>
         </div>
       </div>
+      <div className="d-flex flex-column align-items-center pt-4">
+              <h4>Calling all Geography and Travel Enthusiasts!</h4>
+              <p className="col-6 text-center">
+                This is a game where you can test your knowledge of countries. You can also learn about countries you have never
+                heard of before and share which countries you've traveled to or are on your bucket list</p>
+            </div>
     </div>
   );
 }
