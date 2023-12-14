@@ -6,27 +6,15 @@ import { FaBucket } from "react-icons/fa6";
 import { ImCheckmark } from "react-icons/im";
 import * as client from "../Users/client.js";
 import * as likesClient from "../Likes/client.js";
-import * as likesClient from "../likes/client";
-import * as userService from "../Users/client";
 //todo maps?
 
 const CountryDetails = ({countryID}) => {
   const { id } = useParams();
   const [countryDetails, setCountryDetails] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const [traveledTo, setTraveledTo] = useState(false);
   const [onBucketList, setOnBucketList] = useState(false);
   const [account, setAccount] = useState(null);
   
-
-  const fetchCurrentUser = async () => {
-    try {
-      const user = await userService.account();
-      setCurrentUser(user);
-    } catch {
-      console.error('Error fetching current user');
-    }
-  };
 
   useEffect(() => {
     const fetchCountryDetails = async () => {
@@ -86,8 +74,6 @@ const CountryDetails = ({countryID}) => {
     console.log(updateResponse);
   };
 
-    fetchCurrentUser();
-  }, [id]);
 
   if (!countryDetails) {
     return <div>Loading...</div>;
@@ -100,10 +86,6 @@ const CountryDetails = ({countryID}) => {
   const handleOnBucketListClick = () => {
     setOnBucketList(!onBucketList);
   }
-
-  const like = async () => {
-    await likesClient.createUserLikesCountry(currentUser._id, id);
-  };
 
   const addCommas = (num) => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -119,7 +101,7 @@ const CountryDetails = ({countryID}) => {
           <div className="col-md-6 justify-content-center">
             <h2 className='d-inline'>{countryDetails.name} <img src={countryDetails.flag} className='flag-image'/></h2>
             <div className='float-end'>
-            <button onClick={like} className="btn">
+            <button onClick={handleTraveledToClick} className="btn">
               <ImCheckmark className={`like-btn ${traveledTo ? "cg-green" : "cg-grey"}`} />
             </button>
             <button onClick={handleOnBucketListClick} className="btn">

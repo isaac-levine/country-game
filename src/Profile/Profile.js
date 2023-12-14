@@ -67,11 +67,6 @@ function Profile() {
         }
     }
 
-    const fetchCountryLikes = async (id) => {
-        const likes = await likesClient.findUsersWhoLikeAlbum(id);
-        setLikes(likes);
-    }
-
     useState(() => {
         fetchUser();
     }, []);
