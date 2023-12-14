@@ -39,7 +39,7 @@ function App() {
             <Route path="/Friends" element={<Friends />} />
             <Route path="/Play" element={<Play />} />
             <Route path="/usersearch" element={<UserSearch />} />
-            <Route path="/usersearch/*" element={<UserSearch />} />
+            <Route path="/usersearch/:searchWord" element={<UserSearch />} />
           </Routes>
         </div>
       </HashRouter>
