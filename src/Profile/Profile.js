@@ -134,11 +134,8 @@ function Profile() {
             Sign out{" "}
           </button>
           <div className="profile-main">
-            <h1>
-              User:{" "}
-              <strong style={{ color: "#343a40" }}>{account.username}</strong>
-            </h1>
-            <div className="d-flex bio-section">
+            <h1>User: {account.username}</h1>
+            <div className="d-flex">
               <div className="following-section">
                 <h5>Following</h5>
                 {following.length}
@@ -198,9 +195,9 @@ function Profile() {
               Average: {averageScore} <br />
               Games Played: {gamesPlayed}
             </div>
-            <div className="bio-section">
+            <div>
               <h2>Following</h2>
-              <div className="list-group ">
+              <div className="list-group">
                 {following.map((follows) => (
                   <Link
                     key={follows.followed._id}
@@ -213,7 +210,7 @@ function Profile() {
                 ))}
               </div>
             </div>
-            <div className="bio-section">
+            <div>
               <h2>Followers</h2>
               <div className="list-group">
                 {followers.map((follower) => (

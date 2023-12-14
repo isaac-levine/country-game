@@ -61,17 +61,21 @@ function AdminEdit() {
             {!account && (<div> you are not suppose to be here</div>)}
             {account && (
                 <div>
-                    <h1>Admin Edit Users </h1>
+                    <h1>User List</h1>
                     <table className="table">
                         <thead>
+
+                            <tr>
+                                <th>Username</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>
                                     <input value={user.username} placeholder="username" onChange={(e) => setUser({ ...user, username: e.target.value })} />
-                                </td>
-                                <td>
-                                <input value={user.password} placeholder="password" onChange={(e) => setUser({ ...user, password: e.target.value })} />
+                                    <input value={user.password} placeholder="password" onChange={(e) => setUser({ ...user, password: e.target.value })} />
                                 </td>
                                 <td>
                                     <input value={user.firstName} placeholder="First Name" onChange={(e) => setUser({ ...user, firstName: e.target.value })} />
@@ -98,7 +102,6 @@ function AdminEdit() {
                                             {user.username}
                                         </Link>
                                     </td>
-                                    <td> {user.password} </td>
                                     <td>{user.firstName}</td>
                                     <td>{user.lastName}</td>
                                     <td> {user.status} </td>

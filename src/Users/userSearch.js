@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import GetAllCountries from "../get-all-countries.js";
 import { findAllUsers } from "./client.js";
-import index from "./index.css";
 
 function Search() {
   const { searchWord } = useParams();
@@ -72,36 +71,36 @@ function Search() {
             />
             <i className="fa fa-search"></i>
           </div>
-          <div className="mt-3 mb-3 user_list">Results: </div>
+          <div className="mt-3 mb-3">Results: </div>
           <ul className="list-group">
             {sortedResults.map((user, index) => (
-              <li key={index} className="list-group-item" >
-                <Link to={`/Profile/${user._id}`} style={{textDecoration: "none"}}>
+              <li key={index} className="list-group-item">
+                <Link to={`/Profile/${user._id}`}>
                 <table>
                   <tbody>
                     <tr>
-                      <td style={{ width: "30%", textAlign: "right", color: "black"}}  >
+                      <td style={{ width: "30%", textAlign: "right" }}>
                         <strong>Username:</strong>
                       </td>
-                      <td style={{ width: "70%", color: "black" }}>{user.username}</td>
+                      <td style={{ width: "70%" }}>{user.username}</td>
                     </tr>
                     <tr>
-                      <td style={{ width: "30%", textAlign: "right", color: "black" }}>
+                      <td style={{ width: "30%", textAlign: "right" }}>
                         <strong>First Name:</strong>
                       </td>
-                      <td style={{ width: "70%", color: "black" }}>{user.firstName}</td>
+                      <td style={{ width: "70%" }}>{user.firstName}</td>
                     </tr>
                     <tr>
-                      <td style={{ width: "30%", textAlign: "right", color: "black" }}>
+                      <td style={{ width: "30%", textAlign: "right" }}>
                         <strong>Last Name:</strong>
                       </td>
-                      <td style={{ width: "70%", color: "black" }}>{user.lastName}</td>
+                      <td style={{ width: "70%" }}>{user.lastName}</td>
                     </tr>
                     <tr>
-                      <td style={{ width: "30%", textAlign: "right", color: "black" }}>
+                      <td style={{ width: "30%", textAlign: "right" }}>
                         <strong>Status:</strong>
                       </td>
-                      <td style={{ width: "70%", color: "black" }}>{user.status}</td>
+                      <td style={{ width: "70%" }}>{user.status}</td>
                     </tr>
                   </tbody>
                 </table>
