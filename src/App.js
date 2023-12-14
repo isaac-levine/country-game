@@ -39,7 +39,7 @@ function App() {
             <Route path="/EditOthers/:id" element={<AdminEdit />} />
             <Route path="/Play" element={<Play />} />
             <Route path="/usersearch" element={<UserSearch />} />
-            <Route path="/usersearch/*" element={<UserSearch />} />
+            <Route path="/usersearch/:searchWord" element={<UserSearch />} />
           </Routes>
         </div>
       </HashRouter>

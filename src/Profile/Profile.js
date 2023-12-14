@@ -3,7 +3,7 @@ import { useState} from "react";
 import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import * as likesClient from "../likes/client";
+import * as likesClient from "../Likes/client";
 import { setCurrentUser } from "../Users/reducer";
 import { useDispatch } from "react-redux";
 import * as gameClient from "../Play/client";
@@ -107,7 +107,7 @@ function Profile() {
                         </div>
 
                         <div className="bio-section">
-                            <h2>A litle bit about me </h2>
+                            <h2>A little bit about me </h2>
                             <p>{account.bio} </p>
                         </div>
                         <div className="bio-section">

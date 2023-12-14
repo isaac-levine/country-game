@@ -38,15 +38,15 @@ function Search() {
 
   const sortResults = () => {
     let lowercaseSearchTerm = "";
-    if (searchTerm !== undefined) {
+    if (searchWord != undefined) {
       lowercaseSearchTerm = searchTerm.toLowerCase();
     }
     let sortedResults = results
       .sort((a, b) => a.username.localeCompare(b.username))
       .filter(
         (user) =>
-          searchTerm === "" ||
-          !searchTerm ||
+          searchWord === "" ||
+          !searchWord ||
           user.username.toLowerCase().includes(lowercaseSearchTerm) ||
           user.firstName.toLowerCase().includes(lowercaseSearchTerm) ||
           user.lastName.toLowerCase().includes(lowercaseSearchTerm)
