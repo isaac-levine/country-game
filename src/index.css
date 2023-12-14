@@ -55,6 +55,17 @@ a.btn.btn-primary {
   border-color: #343a40;
 }
 
+a.btn.btn-secondary {
+  /* Your styles here */
+  color: #1e2a44; /* Text color */
+  background-color: #eae3cb; /* Text color */
+  color: #1e2a44; /* Background color */
+  /* Add more styles as needed */
+  border-radius: 15px;
+  border-width: 1px;
+  border-color: #343a40;
+}
+
 button.btn.btn-primary {
   /* Your styles here */
   color: #eae3cb; /* Text color */
@@ -64,6 +75,8 @@ button.btn.btn-primary {
   border-width: 1px;
   border-color: #343a40;
 }
+
+
 
 a.btn.btn-dark {
   /* Your styles here */
