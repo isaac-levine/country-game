@@ -130,7 +130,7 @@ function Play() {
             )}
             </div>
             </div>
-            <div className="col-4">
+            <div className="col-md-4 col-12">
                 Current User: {account && account.username}
                 <h3>Points: {points}</h3>
                 <p>How does it work?</p>
