@@ -2,6 +2,7 @@ import * as client from "../Users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as followsClient from "../follows/client";
+import { Link } from "react-router-dom";
 
 import "./index.css";
 
@@ -121,6 +122,36 @@ function OtherUsers() {
                                 </div>
                                 <div className="bio-section">
                                     <h2>I have traveled to ... </h2>
+                                </div>
+                                <div>
+                                    <h2>Following</h2>
+                                    <div className="list-group">
+                                        {following.map((follows) => (
+                                            <Link
+                                                key={follows.followed._id}
+                                                className="list-group-item"
+                                                to={`/Profile/${follows.followed._id}`}
+                                            >
+                                                {follows.followed.firstName} {follows.followed.lastName} (@
+                                                {follows.followed.username})
+                                            </Link>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2>Followers</h2>
+                                    <div className="list-group">
+                                        {followers.map((follower) => (
+                                            <Link
+                                                key={follower.follower._id}
+                                                className="list-group-item"
+                                                to={`/Profile/${follower.follower._id}`}
+                                            >
+                                                {follower.follower.firstName} {follower.follower.lastName} (@
+                                                {follower.follower.username})
+                                            </Link>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         )}
