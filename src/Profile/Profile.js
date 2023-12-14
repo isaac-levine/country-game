@@ -136,7 +136,7 @@ function Profile() {
           <div className="profile-main">
             <h1>
               User:{" "}
-              <strong style={{ color: "#d4f1fc" }}>{account.username}</strong>
+              <strong style={{ color: "#343a40" }}>{account.username}</strong>
             </h1>
             <div className="d-flex bio-section">
               <div className="following-section">
