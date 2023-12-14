@@ -8,7 +8,7 @@ import LoggedInHome from "./Home/logged-in-home";
 import Signin from "./Users/Signin";
 import Signup from "./Users/Signup";
 import OtherUsers from "./Users/OtherUsers";
-import Friends from "./Users/Friends";
+import AdminEdit from "./Users/AdminEdit";
 import UserSearch from "./Users/userSearch";
 import Play from "./Play";
 import Nav from "./Nav";
@@ -36,7 +36,7 @@ function App() {
             <Route path="/login" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/Profile/:id" element={<OtherUsers />} />
-            <Route path="/Friends" element={<Friends />} />
+            <Route path="/EditOthers/:id" element={<AdminEdit />} />
             <Route path="/Play" element={<Play />} />
             <Route path="/usersearch" element={<UserSearch />} />
             <Route path="/usersearch/*" element={<UserSearch />} />

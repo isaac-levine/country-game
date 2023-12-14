@@ -90,9 +90,9 @@ function Profile() {
             }
             {account && (
                 <div>
-                    <Link to={`/Friends`}><button type="button" className="btn btn-success float-end" > Find Friends </button> </Link>
+                    {account.status == "ADMIN" && (<Link to={`/EditOthers/${account._id}`}><button type="button" className="btn btn-primary float-end" > Edit other users </button> </Link>)}
                     <Link to={`/Profile/Edit_Profile`}><button type="button" className="btn btn-primary float-end" > Edit Profile </button> </Link>
-                    <button type="button" className="btn btn-danger float-end" onClick={signout} > Sign out </button>
+                    <button type="button" className="btn btn-primary float-end" onClick={signout} > Sign out </button>
                     <div className="profile-main">
                         <h1>User: {account.username}</h1>
                         <div className="d-flex">
