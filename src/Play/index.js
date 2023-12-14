@@ -2,7 +2,7 @@ import GetRandomCountry from "./getrandomcountry";
 import { useState, useEffect } from 'react';
 import GetAllCountries from "../get-all-countries";
 import "./index.css"
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as client from "./client.js"
 import * as userClient from "../Users/client.js";
 //TODO: Style, make scoring reflect the population of the country
@@ -36,8 +36,13 @@ function Play() {
     }, []);
 
     const fetchAccount = async () => {
-        const account = await userClient.account();
-        setAccount(account);
+        try {
+            const account = await userClient.account();
+            setAccount(account);
+        }
+        catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
 
@@ -102,7 +107,19 @@ function Play() {
     }
 
     return (
-        <div className="row">
+        <div>
+            {!account && <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                <p class="text-center mt-5"><span className="d-block mb-3">Please log in to play the game</span>
+                <Link to={`/Login`}>
+                        <button type="button" className="btn btn-primary"> Sign in </button>
+                    </Link>
+                    <Link to={`/signup`}>
+                        <button type="button" className="btn btn-primary"> Sign Up </button>
+                    </Link> </p>
+        </div> </div>}
+            {account &&
+            <div className="row">
             <h1>Guess the country</h1>
             <div className="col-8">
             <div className="container ">
@@ -136,6 +153,7 @@ function Play() {
                 <p>How does it work?</p>
                 <p>Guess the country using clues provided. The more clues you use, the less points you will get. Good luck!</p>
             </div>
+        </div>}
         </div>
     );
 }

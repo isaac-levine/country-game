@@ -14,7 +14,8 @@ const CountryDetails = ({countryID}) => {
   const [traveledTo, setTraveledTo] = useState(false);
   const [onBucketList, setOnBucketList] = useState(false);
   const [account, setAccount] = useState(null);
-  
+  const [usersTraveledTo, setUsersTraveledTo] = useState(null);
+  const [usersOnBucketList, setUsersOnBucketList] = useState(null);
 
   useEffect(() => {
     const fetchCountryDetails = async () => {
@@ -32,13 +33,19 @@ const CountryDetails = ({countryID}) => {
       }
     };
     fetchCountryDetails();
+    fetchUsersWhoLikeCountry();
     fetchAccount();
   }, [id]);
 
   const fetchAccount = async () => {
-    const account = await client.account();
-    setAccount(account);
-    fetchUserLikesCountry(account);
+    try {
+      const account = await client.account();
+      setAccount(account);
+      fetchUserLikesCountry(account);
+    }
+    catch (error) {
+      console.log('[error]', error.response);
+    }
   };
 
   const fetchUserLikesCountry = async (account) => {
@@ -68,6 +75,14 @@ const CountryDetails = ({countryID}) => {
     const updateResponse = await likesClient.updateLike(account._id, id, traveledTo, onBucketList);
   };
 
+  const fetchUsersWhoLikeCountry = async () => {
+    const usersTraveledTo = await likesClient.getUsersTraveledToByCountry(id);
+    const usersOnBucketList = await likesClient.getUsersOnBucketListByCountry(id);
+    setUsersTraveledTo(usersTraveledTo);
+    setUsersOnBucketList(usersOnBucketList);
+    console.log(usersTraveledTo);
+  }
+
 
   if (!countryDetails) {
     return <div>Loading...</div>;
@@ -87,7 +102,17 @@ const CountryDetails = ({countryID}) => {
 
   return (
     <div>
-      <div className="container mt-5">
+      {!account && <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                <p class="text-center mt-5"><span className="d-block mb-3">Please log in to see country details</span>
+                <Link to={`/Login`}>
+                        <button type="button" className="btn btn-primary"> Sign in </button>
+                    </Link>
+                    <Link to={`/signup`}>
+                        <button type="button" className="btn btn-primary"> Sign Up </button>
+                    </Link> </p>
+        </div> </div>}
+      {account && <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className='col-md-3'>
           <Link className="nav-link" to="/Search"><FaArrowLeft className='m-2 pb-1'/>Back to Search</Link>
@@ -109,13 +134,35 @@ const CountryDetails = ({countryID}) => {
               Languages: {addCommas(countryDetails.languages.map(language => " " +  language.name))} <br />
               Population: {addCommas(countryDetails.population)} <br/>
               Area: {countryDetails.area} km<sup>2</sup> <br/>
+              <div className="row">
+                <div className='col-md-5'>
+              {usersTraveledTo && usersTraveledTo.length || 0} users have traveled here<br/>
+              {/* <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">
+                  Dropdown button
+                </button> */}
+                {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {usersTraveledTo && usersTraveledTo.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name}</Link>)}
+                </div> */}
+                <div className="list-group">
+                  {usersTraveledTo && usersTraveledTo.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name} </Link>)}
+                </div>
+        
+              </div>
+              <div className='col-md-5'>
+              On {usersOnBucketList && usersOnBucketList.length || 0} bucket lists<br/>
+              <div className="list-group">
+                  {usersOnBucketList && usersOnBucketList.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name}</Link>)}
+                </div>
+              </div>
+              
+               </div>
             </p>
           </div>
           <div className='col-md-3'>
             Current User: {account && account.username}
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };
