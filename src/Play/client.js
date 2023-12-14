@@ -3,8 +3,8 @@ import axios from "axios";
 const request = axios.create({
     withCredentials: true,
 });
-export const BASE_API = "http://localhost:4000";
-//export const BASE_API = process.env.REACT_APP_BASE_COUNTRY_URL;
+
+export const BASE_API = process.env.REACT_APP_BASE_COUNTRY_URL;
 export const GAME_DATA_API = `${BASE_API}/api/game_data`;
 
 export const PostGameScore = async (score) => {
