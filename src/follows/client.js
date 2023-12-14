@@ -3,7 +3,8 @@ const request = axios.create({
   withCredentials: true,
 });
 
-const FOLLOWS_API = "http://localhost:4000/api";
+export const BASE_API = process.env.REACT_APP_BASE_COUNTRY_URL;
+export const FOLLOWS_API = `${BASE_API}/api`;
 
 export const findAllFollows = async () => {
   const response = await request.get(`${FOLLOWS_API}/follows`);
