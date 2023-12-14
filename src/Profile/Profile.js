@@ -1,6 +1,6 @@
 import * as client from "../Users/client";
-import { useState} from "react";
-import { useNavigate} from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
 import * as likesClient from "../Likes/client";
@@ -53,15 +53,15 @@ function Profile() {
 
     const fetchUserScores = async (username) => {
         try {
-          console.log("fetching data for " + username);
-          const recentUserScores = await gameClient.GetRecentUserScores(username);
-          setRecentUserScores(recentUserScores);
-          console.log(recentUserScores);
+            console.log("fetching data for " + username);
+            const recentUserScores = await gameClient.GetRecentUserScores(username);
+            setRecentUserScores(recentUserScores);
+            console.log(recentUserScores);
         } catch (error) {
-          console.error("Error fetching data:", error);
+            console.error("Error fetching data:", error);
         }
-      }
-    
+    }
+
     const fetchAverageScore = async (username) => {
         try {
             const averageScore = await gameClient.GetAverageScore(username);
@@ -137,7 +137,7 @@ function Profile() {
                                         {country.countryName}
                                     </Link>
                                 ))}
-                                </div>
+                            </div>
                         </div>
                         <div className="bio-section">
                         <h2>On my Bucket List</h2>
@@ -158,9 +158,38 @@ function Profile() {
                             ))}
                             Average: {averageScore} <br/> 
                             Games Played: {gamesPlayed}
+                        </div>
+                        <div>
+                            <h2>Following</h2>
+                            <div className="list-group">
+                                {following.map((follows) => (
+                                    <Link
+                                        key={follows.followed._id}
+                                        className="list-group-item"
+                                        to={`/Profile/${follows.followed._id}`}
+                                    >
+                                        {follows.followed.firstName} {follows.followed.lastName} (@
+                                        {follows.followed.username})
+                                    </Link>
+                                ))}
                             </div>
+                        </div>
+                        <div>
+                            <h2>Followers</h2>
+                            <div className="list-group">
+                                {followers.map((follower) => (
+                                    <Link
+                                        key={follower.follower._id}
+                                        className="list-group-item"
+                                        to={`/Profile/${follower.follower._id}`}
+                                    >
+                                        {follower.follower.firstName} {follower.follower.lastName} (@
+                                        {follower.follower.username})
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             )}
         </div>
