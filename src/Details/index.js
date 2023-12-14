@@ -36,9 +36,14 @@ const CountryDetails = ({countryID}) => {
   }, [id]);
 
   const fetchAccount = async () => {
-    const account = await client.account();
-    setAccount(account);
-    fetchUserLikesCountry(account);
+    try {
+      const account = await client.account();
+      setAccount(account);
+      fetchUserLikesCountry(account);
+    }
+    catch (error) {
+      console.log('[error]', error.response);
+    }
   };
 
   const fetchUserLikesCountry = async (account) => {
@@ -87,7 +92,17 @@ const CountryDetails = ({countryID}) => {
 
   return (
     <div>
-      <div className="container mt-5">
+      {!account && <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                <p class="text-center mt-5"><span className="d-block mb-3">Please log in to see country details</span>
+                <Link to={`/Login`}>
+                        <button type="button" className="btn btn-primary"> Sign in </button>
+                    </Link>
+                    <Link to={`/signup`}>
+                        <button type="button" className="btn btn-primary"> Sign Up </button>
+                    </Link> </p>
+        </div> </div>}
+      {account && <div className="container mt-5">
         <div className="row d-flex justify-content-center">
           <div className='col-md-3'>
           <Link className="nav-link" to="/Search"><FaArrowLeft className='m-2 pb-1'/>Back to Search</Link>
@@ -115,7 +130,7 @@ const CountryDetails = ({countryID}) => {
             Current User: {account && account.username}
           </div>
         </div>
-      </div>
+      </div>}
     </div>
   );
 };
