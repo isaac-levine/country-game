@@ -3,7 +3,7 @@ import { useState} from "react";
 import { useNavigate} from "react-router-dom";
 import { Link } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import * as likesClient from "../Like/client";
+import * as likesClient from "../Likes/client";
 import { setCurrentUser } from "../Users/reducer";
 import { useDispatch } from "react-redux";
 import * as gameClient from "../Play/client";

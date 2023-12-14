@@ -5,7 +5,7 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { FaBucket } from "react-icons/fa6";
 import { ImCheckmark } from "react-icons/im";
 import * as client from "../Users/client.js";
-import * as likesClient from "../Like/client.js";
+import * as likesClient from "../Likes/client.js";
 //todo maps?
 
 const CountryDetails = ({countryID}) => {

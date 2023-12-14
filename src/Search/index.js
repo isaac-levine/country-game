@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import { FaAngleDown, FaAngleRight } from "react-icons/fa6";
 import GetAllCountries from "../get-all-countries";
-import * as client from "../Like/client.js";
+import * as client from "../Likes/client.js";
 //TODO : add order by
 
 function Search() {
