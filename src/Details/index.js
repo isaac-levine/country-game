@@ -31,36 +31,29 @@ const CountryDetails = ({countryID}) => {
         console.error('Error fetching country details:', error);
       }
     };
-
     fetchCountryDetails();
     fetchAccount();
-  }, [id, traveledTo, onBucketList]);
-
-  useEffect(() => {
-    fetchUserLikesCountry();
-  }, [account]);
+  }, [id]);
 
   const fetchAccount = async () => {
     const account = await client.account();
     setAccount(account);
+    fetchUserLikesCountry(account);
   };
 
-  const fetchUserLikesCountry = async () => {
-    console.log("fetchUserLikesCountry");
+  const fetchUserLikesCountry = async (account) => {
     if(account) {
-      console.log("here!");
+      console.log("fetchUserLikesCountry");
       const likesCountry = await likesClient.getUserLikesCountry(account._id, id);
-      console.log(likesCountry);
-      if(likesCountry) {
-        console.log("did the" + likesCountry.traveledTo)
-        setTraveledTo(likesCountry.traveledTo);
-        setOnBucketList(likesCountry.onBucketList);
+      if(likesCountry.length > 0) {
+        setTraveledTo(likesCountry[0].haveTraveledTo);
+        setOnBucketList(likesCountry[0].onBucketList);
       }
-  }
+    }
   }
 
   useEffect(() => {
-    if(account) {
+    if(account && traveledTo !== null && onBucketList !== null && countryDetails !== undefined) {
       likeCountry();
     }
   }, [traveledTo, onBucketList]);
@@ -68,10 +61,11 @@ const CountryDetails = ({countryID}) => {
   const likeCountry = async () => {
     const likesCountry = await likesClient.getUserLikesCountry(account._id, id);
     if(likesCountry.length === 0) {
-      const response = await likesClient.createLike(account._id, id);
+      console.log("creating like");
+      console.log(countryDetails.name)
+      const response = await likesClient.createLike(account._id, id, countryDetails.name);
     }
     const updateResponse = await likesClient.updateLike(account._id, id, traveledTo, onBucketList);
-    console.log(updateResponse);
   };
 
 
@@ -100,14 +94,14 @@ const CountryDetails = ({countryID}) => {
           </div>
           <div className="col-md-6 justify-content-center">
             <h2 className='d-inline'>{countryDetails.name} <img src={countryDetails.flag} className='flag-image'/></h2>
-            <div className='float-end'>
+            {account && <div className='float-end'>
             <button onClick={handleTraveledToClick} className="btn">
               <ImCheckmark className={`like-btn ${traveledTo ? "cg-green" : "cg-grey"}`} />
             </button>
             <button onClick={handleOnBucketListClick} className="btn">
               <FaBucket className={`like-btn ${onBucketList ? "cg-blue" : "cg-grey"}`} />
-            </button>
-            </div><br/>
+            </button> 
+            </div>}<br/>
             <p>
               Capital: {countryDetails.capital} <br />
               Region: {countryDetails.region} <br />

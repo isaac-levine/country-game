@@ -45,13 +45,13 @@ function Search() {
             setResults(data);
             const countsObject = {};
             const countsObject2 = {};
-            for (const countryID of data.map(country => country.cca2)) {
-                console.log(countryID);
-                const traveledTo = await client.getTraveledToByCountry(countryID);
-                countsObject[countryID] = traveledTo.length;
-                const onBucketList = await client.getOnBucketListByCountry(countryID);
-                countsObject2[countryID] = onBucketList.length;
-            }
+            // for (const countryID of data.map(country => country.cca2)) {
+            //     console.log(countryID);
+            //     const traveledTo = await client.getTraveledToByCountry(countryID);
+            //     countsObject[countryID] = traveledTo.length;
+            //     const onBucketList = await client.getOnBucketListByCountry(countryID);
+            //     countsObject2[countryID] = onBucketList.length;
+            // }
             setTraveledToCounts(countsObject);
             setBucketListCounts(countsObject2);
           } catch (error) {

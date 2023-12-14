@@ -37,7 +37,7 @@ function LoggedInHome() {
         fetchData();
         fetchAccount();
   }, []);
-  const userFlag = "🇺🇸"; // replace with user's actual flag
+  //const userFlag = "🇺🇸"; // replace with user's actual flag
   return (
     <div>
       <div className="d-flex">
@@ -49,7 +49,7 @@ function LoggedInHome() {
 
       <div className="d-flex flex-column align-items-center justify-content-center vh-100">
         <h1 className="mb-5">
-          {account && <p>Welcome, {account.username}! {userFlag}</p>}
+          {account && <p>Welcome, {account.username}! </p>}
         </h1>
         <div className="d-flex flex-column align-items-center">
           <Link to="/Play" className="btn btn-primary btn-lg mb-3" role="button">

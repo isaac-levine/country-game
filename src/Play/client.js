@@ -38,3 +38,7 @@ export const GetAverageScore = async (username) => {
     return response.data;
 }
 
+export const GetNumGamesPlayed = async (username) => {
+    const response = await request.get(`${GAME_DATA_API}/user/${username}/num_games`);
+    return response.data;
+}

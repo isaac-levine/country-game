@@ -3,8 +3,7 @@ import axios from "axios";
 const request = axios.create({
     withCredentials: true,
 });
-export const BASE_API = "http://localhost:4000";
-//export const BASE_API = process.env.REACT_APP_BASE_COUNTRY_URL;
+export const BASE_API = process.env.REACT_APP_BASE_COUNTRY_URL;
 export const LIKES_API = `${BASE_API}/api/likes`;
 
 export const getAllLikes = async () => {
@@ -14,6 +13,16 @@ export const getAllLikes = async () => {
 
 export const getLikesByUser = async (userId) => {
     const response = await request.get(`${LIKES_API}/user/${userId}`);
+    return response.data;
+}
+
+export const getTraveledToByUser = async (userId) => {
+    const response = await request.get(`${LIKES_API}/traveled/user/${userId}`);
+    return response.data;
+}
+
+export const getOnBucketListByUser = async (userId) => {
+    const response = await request.get(`${LIKES_API}/bucketlist/user/${userId}`);
     return response.data;
 }
 
@@ -27,20 +36,23 @@ export const getTraveledToByCountry = async (countryId) => {
     return response.data;
 }
 
-
 export const getOnBucketListByCountry = async (countryId) => {
     const response = await request.get(`${LIKES_API}/bucketlist/country/${countryId}`);
     return response.data;
 }
 
 export const updateLike = async (userId, countryCode, traveledTo, onBucketList) => {
-    console.log("traveled to" + traveledTo + "on bucket list" + onBucketList);
+    console.log("traveled to: " + traveledTo + " on bucket list: " + onBucketList);
+    if(traveledTo === null || onBucketList === null) {
+        return [];
+    }
     const response = await request.put(`${LIKES_API}/user/${userId}/country/${countryCode}/${traveledTo}/${onBucketList}`);
     return response.data;
 }
 
-export const createLike = async (userId, countryCode) => {
-    const response = await request.post(`${LIKES_API}/user/${userId}/country/${countryCode}`);
+export const createLike = async (userId, countryCode, countryName) => {
+    console.log("creating like for " + userId + " " + countryCode + " " + countryName);
+    const response = await request.post(`${LIKES_API}/user/${userId}/country/${countryCode}/name/${countryName}`);
     return response.data;
 }
 
@@ -54,3 +66,4 @@ export const getUserLikesCountry = async (userId, countryCode) => {
     console.log("getUserLikesCountry");
     return response.data;
 }
+

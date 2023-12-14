@@ -14,9 +14,11 @@ function Profile() {
     const [account, setAccount] = useState(null);
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
-    const [likes, setLikes] = useState([]);
+    const [traveledTo, setTraveledTo] = useState([]);
+    const [onBucketList, setOnBucketList] = useState([]);
     const [recentUserScores, setRecentUserScores] = useState([]);
     const [averageScore, setAverageScore] = useState(0);
+    const [gamesPlayed, setGamesPlayed] = useState(0);
     const navigate = useNavigate();
 
     const signout = async () => {
@@ -32,6 +34,8 @@ function Profile() {
             setAccount(account);
             fetchUserScores(account.username);
             fetchAverageScore(account.username);
+            fetchTraveledToAndBucketList(account._id);
+            fetchGamesPlayed(account.username);
         } catch (error) {
             console.log('[error]', error.response);
         }
@@ -62,6 +66,22 @@ function Profile() {
         try {
             const averageScore = await gameClient.GetAverageScore(username);
             setAverageScore(averageScore);
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
+
+    const fetchTraveledToAndBucketList = async (id) => {
+        const traveledTo = await likesClient.getTraveledToByUser(id);
+        const onBucketList = await likesClient.getOnBucketListByUser(id);
+        setTraveledTo(traveledTo);
+        setOnBucketList(onBucketList);
+    };
+
+    const fetchGamesPlayed = async (username) => {
+        try {
+            const gamesPlayed = await gameClient.GetNumGamesPlayed(username);
+            setGamesPlayed(gamesPlayed);
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -109,25 +129,35 @@ function Profile() {
                             <h2>My countries of origin are...</h2>
                             <p>{account.origins}</p>
                         </div>
-                        <h2>I want to travel to</h2>
                         <div className="bio-section">
+                            <h2>I have traveled to ... </h2>
                             <div className="list-group">
-                                {likes.map((like) => (
-                                    <p2>like</p2>
+                                {traveledTo && traveledTo.map((country, index) => (
+                                    <Link to={`/Details/${country.countryCode}`} className="list-group-item list-group-item-action" key={index}>
+                                        {country.countryName}
+                                    </Link>
                                 ))}
                             </div>
                         </div>
                         <div className="bio-section">
-                            <h2>I have traveled to ... </h2>
+                        <h2>On my Bucket List</h2>
+                        <div className="list-group">
+                           {onBucketList && onBucketList.map((country, index) => ( 
+                                <Link to={`/Details/${country.countryCode}`} className="list-group-item list-group-item-action" key={index}>
+                                    {country.countryName}
+                                </Link>
+                            ))}
                         </div>
-                        <div>
+                        </div>
+                        <div className="bio-section">
                             <h2>My recent scores</h2>
                             {recentUserScores && recentUserScores.map((score, index) => (
                                 <div key={index}>
                                     {index + 1}. {score.pts} pts
                                 </div>
                             ))}
-                            Average: {averageScore}
+                            Average: {averageScore} <br/> 
+                            Games Played: {gamesPlayed}
                         </div>
                         <div>
                             <h2>Following</h2>
