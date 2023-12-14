@@ -45,7 +45,7 @@ function Search() {
             setResults(data);
             const countsObject = {};
             const countsObject2 = {};
-            // for (const countryID of data.map(country => country.cca2)) {
+            // for (const countryID of data.map(country => country.cca2).sort()) {
             //     console.log(countryID);
             //     const traveledTo = await client.getTraveledToByCountry(countryID);
             //     countsObject[countryID] = traveledTo.length;
@@ -139,8 +139,8 @@ function Search() {
                         <p>Capital: {country.capital}<br/>
                         Region: {country.region} <br/>
                         Subregion: {country.subregion} </p>
-                        Traveled to: {traveledToCounts[country.cca2] || 0} <br/>
-                        On Bucket List: {bucketListCounts[country.cca2] || 0}
+                        {/* Traveled to: {traveledToCounts[country.cca2] || 0} <br/>
+                        On Bucket List: {bucketListCounts[country.cca2] || 0} */}
                     </li>
                     ))}
                 </ul>

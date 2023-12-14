@@ -14,7 +14,8 @@ const CountryDetails = ({countryID}) => {
   const [traveledTo, setTraveledTo] = useState(false);
   const [onBucketList, setOnBucketList] = useState(false);
   const [account, setAccount] = useState(null);
-  
+  const [usersTraveledTo, setUsersTraveledTo] = useState(null);
+  const [usersOnBucketList, setUsersOnBucketList] = useState(null);
 
   useEffect(() => {
     const fetchCountryDetails = async () => {
@@ -32,6 +33,7 @@ const CountryDetails = ({countryID}) => {
       }
     };
     fetchCountryDetails();
+    fetchUsersWhoLikeCountry();
     fetchAccount();
   }, [id]);
 
@@ -72,6 +74,14 @@ const CountryDetails = ({countryID}) => {
     }
     const updateResponse = await likesClient.updateLike(account._id, id, traveledTo, onBucketList);
   };
+
+  const fetchUsersWhoLikeCountry = async () => {
+    const usersTraveledTo = await likesClient.getUsersTraveledToByCountry(id);
+    const usersOnBucketList = await likesClient.getUsersOnBucketListByCountry(id);
+    setUsersTraveledTo(usersTraveledTo);
+    setUsersOnBucketList(usersOnBucketList);
+    console.log(usersTraveledTo);
+  }
 
 
   if (!countryDetails) {
@@ -124,6 +134,28 @@ const CountryDetails = ({countryID}) => {
               Languages: {addCommas(countryDetails.languages.map(language => " " +  language.name))} <br />
               Population: {addCommas(countryDetails.population)} <br/>
               Area: {countryDetails.area} km<sup>2</sup> <br/>
+              <div className="row">
+                <div className='col-md-5'>
+              {usersTraveledTo && usersTraveledTo.length || 0} users have traveled here<br/>
+              {/* <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton">
+                  Dropdown button
+                </button> */}
+                {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  {usersTraveledTo && usersTraveledTo.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name}</Link>)}
+                </div> */}
+                <div className="list-group">
+                  {usersTraveledTo && usersTraveledTo.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name} </Link>)}
+                </div>
+        
+              </div>
+              <div className='col-md-5'>
+              On {usersOnBucketList && usersOnBucketList.length || 0} bucket lists<br/>
+              <div className="list-group">
+                  {usersOnBucketList && usersOnBucketList.map(user => <Link to={`/Profile/${user.userId}`} className="list-group-item list-group-item-action">{user.name}</Link>)}
+                </div>
+              </div>
+              
+               </div>
             </p>
           </div>
           <div className='col-md-3'>
