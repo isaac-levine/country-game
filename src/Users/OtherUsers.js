@@ -2,59 +2,81 @@ import * as client from "../Users/client";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as followsClient from "../follows/client";
-import { useSelector } from "react-redux";
 
 import "./index.css";
 
 function OtherUsers() {
     const { id } = useParams();
     const [account, setAccount] = useState(null);
-    const { currentUser } = useSelector((state) => state.usersReducer);
-    const navigate = useNavigate();
+    const [currentUser, setCurrentUser] = useState(null);
+
+    const fetchCurrentUser = async () => {
+        try {
+            const user = await client.account();
+            setCurrentUser(user);
+        } catch (error) {
+            console.log('[error]', error.response);
+        }
+    };
+
     const [followers, setFollowers] = useState([]);
     const [following, setFollowing] = useState([]);
 
 
     const fetchUser = async () => {
-        const user = await client.findUserById(id);
-        setAccount(user);
-        fetchFollowers(user._id);
-        fetchFollowing(user._id);
+        try {
+            const user = await client.findUserById(id);
+            setAccount(user);
+            fetchFollowers(user._id);
+            fetchFollowing(user._id);
+        } catch
+        (error) {
+            console.log('[error]', error.response);
+        }
     };
 
 
     const follow = async () => {
-        console.log(currentUser._id);
-        await followsClient.createUserFollowsUser(currentUser._id, account._id);
+        if (currentUser.status === "PRO") {
+            await followsClient.createUserFollowsUser(currentUser._id, account._id);
+            await followsClient.createUserFollowsUser(account._id, currentUser._id);
+        } else {
+            await followsClient.createUserFollowsUser(currentUser._id, account._id);
+        }
+
     };
 
-    const fetchFollowers = async (userId) => {
-        const followers = await followsClient.findUsersFollowingUser(id);
-        setFollowers(followers);
+    const fetchFollowers = async (id) => {
+        try {
+            const followers = await followsClient.findUsersFollowingUser(id);
+            setFollowers(followers);
+        }
+        catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     const fetchFollowing = async (id) => {
-        const following = await followsClient.findUsersFollowedByUser(id);
-        setFollowing(following);
+        try {
+            const following = await followsClient.findUsersFollowedByUser(id);
+            setFollowing(following);
+        } catch (error) {
+            console.log('[error]', error.response);
+        }
     };
 
     const alreadyFollowing = () => {
-        return followers.find(
-            (follows) => follows.follower.id === currentUser._id
-        );
+        try {
+            return followers.find((follows) => follows.follower._id === currentUser._id);
+        }
+        catch (error) {
+            console.log('[error]', error.response);
+        }
     };
-
-    const following_bool = () => {
-        if (alreadyFollowing) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     useEffect(() => {
         fetchUser();
+        fetchCurrentUser();
 
     }, [id]);
 
@@ -73,7 +95,6 @@ function OtherUsers() {
             )}
             {account && (
                 <div>
-                    {!following_bool && (<button type="button" onClick={follow} className="btn btn-success float-end" > Follow </button>)}
                     <div className="profile-main">
                         <h1>User: {account.username}</h1>
                         <div className="d-flex">
@@ -86,20 +107,23 @@ function OtherUsers() {
                                 {followers.length}
                             </div>
                         </div>
-
-                        <div className="bio-section">
-                            <h2>A litle bit about me </h2>
-                            <p>{account.bio} </p>
-                        </div>
-                        <div className="bio-section">
-                            <h2>My countries of origin are...</h2>
-                        </div>
-                        <div className="bio-section">
-                            <h2>I want to travel to ... </h2>
-                        </div>
-                        <div className="bio-section">
-                            <h2>I have traveled to ... </h2>
-                        </div>
+                        {currentUser?._id && (
+                            <div>
+                                <div className="bio-section">
+                                    <h2>A litle bit about me </h2>
+                                    <p>{account.bio} </p>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>My countries of origin are...</h2>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>I want to travel to ... </h2>
+                                </div>
+                                <div className="bio-section">
+                                    <h2>I have traveled to ... </h2>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                 </div>

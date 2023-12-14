@@ -75,6 +75,7 @@ function Search() {
           <ul className="list-group">
             {sortedResults.map((user, index) => (
               <li key={index} className="list-group-item">
+                <Link to={`/Profile/${user._id}`}>
                 <table>
                   <tbody>
                     <tr>
@@ -103,6 +104,7 @@ function Search() {
                     </tr>
                   </tbody>
                 </table>
+                </Link>
               </li>
             ))}
           </ul>

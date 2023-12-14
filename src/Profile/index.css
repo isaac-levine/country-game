@@ -1,7 +1,8 @@
 .profile-main-edit-div {
     padding-left: 1.25%;
-    
+
 }
+
 .profile-main-edior-div .bio-section {
     padding-top: 2%;
 }
@@ -14,4 +15,19 @@
 
 .profile-main .following-section {
     padding-right: 50px;
+}
+
+.restrict_from_none_sign_in {
+    text-decoration: none;
+    color: black;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: inline-block;
+    margin-right: 10px;
+    /* add spacing between items */
 }
