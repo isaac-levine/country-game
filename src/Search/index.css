@@ -1,0 +1,45 @@
+.input-box{
+    position: relative;
+  }
+
+  .input-box i {
+    position: absolute;
+    right: 13px;
+    top:15px;
+    color:#ced4da;
+  }
+
+  .cg-link {
+    color: black
+  }
+
+  .flag-image {
+    width: 70px;
+    margin-right: 5px;
+    border: 1px solid #ced4da;
+  }
+
+  .search-result-flag {
+    position: relative;
+    top: 25px;
+  }
+
+  .cg-red {
+    color : rgb(236, 83, 124);
+  }
+
+  .cg-grey {
+    color : rgb(125, 125, 125);
+  }
+
+  .cg-green {
+    color : rgb(0, 128, 0);
+  }
+
+  .cg-blue {
+    color : rgb(63, 63, 255);
+  }
+
+  .like-btn {
+    width : 50px;
+  }

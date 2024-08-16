@@ -1,0 +1,22 @@
+.flag-image {
+    width: 100px;
+    margin-right: 5px;
+    border: 1px solid #ced4da;
+  }
+
+.cg-button-clue {
+    background-color: cornsilk !important
+}
+
+.cg-button-clue:hover {
+    background-color: rgb(243, 231, 179) !important
+}
+
+.cg-button-reveal {
+    background-color: rgb(228, 115, 115) !important
+}
+
+.cg-button-reveal:hover {
+    background-color: rgb(255, 171, 171) !important
+}
+

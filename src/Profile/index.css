@@ -1,0 +1,39 @@
+.profile-main-edit-div {
+  padding-left: 1.25%;
+}
+
+.profile-main-edior-div .bio-section {
+  padding-top: 2%;
+}
+
+.profile-main {
+  padding-top: 10px;
+  padding-left: 15px;
+}
+
+.profile-main .following-section {
+  padding-right: 50px;
+}
+
+.restrict_from_none_sign_in {
+  text-decoration: none;
+  color: black;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  display: inline-block;
+  margin-right: 10px;
+  /* add spacing between items */
+}
+
+.bio-section {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}

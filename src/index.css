@@ -1,0 +1,137 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #343a40; /* Light grey background */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+/* Custom Bootstrap styles */
+.btn {
+  border-radius: 0; /* Square buttons */
+}
+
+.navbar {
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); /* Add shadow to navbar */
+  height: 100vh; /* Set navbar height to full viewport height */
+}
+
+.nav {
+  background-color: white; /* Dark grey background */
+  border-radius: 0; /* Square corners */
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.nav-link {
+  color: #fff; /* White text */
+  transition: color 0.2s ease-in-out; /* Smooth color transition */
+}
+
+.nav-link:hover {
+  color: #fff; /*Blue text on hover*/
+  border-radius: 0;
+  text-decoration: underline;
+}
+
+#app-div {
+  background-color: #aedff7;
+}
+
+a.btn.btn-primary {
+  /* Your styles here */
+  color: #1e2a44; /* Text color */
+  background-color: #eae3cb; /* Text color */
+  color: #1e2a44; /* Background color */
+  /* Add more styles as needed */
+  border-radius: 15px;
+  border-width: 1px;
+  border-color: #343a40;
+}
+
+a.btn.btn-secondary {
+  /* Your styles here */
+  color: #1e2a44; /* Text color */
+  background-color: #eae3cb; /* Text color */
+  color: #1e2a44; /* Background color */
+  /* Add more styles as needed */
+  border-radius: 15px;
+  border-width: 1px;
+  border-color: #343a40;
+}
+
+button.btn.btn-primary {
+  /* Your styles here */
+  color: #eae3cb; /* Text color */
+  background-color: #1e2a44; /* Text color */
+  /* Add more styles as needed */
+  border-radius: 15px;
+  border-width: 1px;
+  border-color: #343a40;
+}
+
+
+
+a.btn.btn-dark {
+  /* Your styles here */
+  color: #eae3cb; /* Text color */
+  background-color: #1e2a44; /* Text color */
+  /* Add more styles as needed */
+  border-radius: 15px;
+  border-width: 1px;
+}
+
+input.form-control {
+  /* Your styles here */
+  border: 1px solid #1e2a44; /* Example border color */
+  border-radius: 20px; /* Example border-radius */
+  padding: 8px; /* Example padding */
+  /* Add more styles as needed */
+}
+
+nav.nav.nav-tabs {
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+nav.nav.nav-tabs a.nav-link {
+  border: 0;
+  color: #1e2a44;
+  font-size: large;
+  font-weight: bold;
+}
+
+nav.nav.nav-tabs a.nav-link:hover {
+  /* Your styles for link hover effect here */
+  /* Add more styles as needed */
+  font-weight: extra-bold;
+  color: #aedff7;
+}
+
+/* Global CSS rule targeting list items and links within the list */
+ul.list-group li.list-group-item a.cg-link {
+  /* Your styles for list items and links here */
+  color: #345577; /* Example text color */
+  text-decoration: none; /* Example removing underline */
+  transition: color 0.3s ease; /* Example smooth color transition on hover */
+  /* Add more styles as needed */
+}
+
+ul.list-group li.list-group-item {
+  background-color: #eae3cb;
+  border-color: #345577;
+  border-radius: 15px;
+  margin-bottom: 5px;
+}
+
+/* Hover effect for the links */
+ul.list-group li.list-group-item a.cg-link:hover {
+  color: #ff9900; /* Example text color on hover */
+  /* Add more styles as needed */
+}
